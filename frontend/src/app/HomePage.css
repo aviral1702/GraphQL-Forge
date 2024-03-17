@@ -1,0 +1,23 @@
+/* #bg-video{
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+} */
+
+#intro{
+    font-family: Poppins;
+    font-weight: lighter;
+    text-align: center;
+}
+
+#table2{
+    background: transparent;
+}
+
+#code_generate{
+    color: rgb(218, 45, 157);
+}

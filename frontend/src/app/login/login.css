@@ -1,0 +1,35 @@
+#login-page{
+    background-image: linear-gradient(rgba(41, 177, 222, 0.686), rgba(72, 218, 23, 0.295));
+    height: 100%;
+    width: 100%;
+}
+
+#card{
+    margin: auto;
+    width: 50%;
+    height: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px black;
+}
+
+#title{
+    text-align: center;
+    color: #d72d2dd5;
+    font-weight: bold;
+}
+
+#button:hover{
+    background-color: #4fdeeed5;
+    color: black;
+}
+
+#signup{
+    color: red;
+}
+
+#signup:hover{
+    text-decoration: underline;
+    color: blue;
+}
