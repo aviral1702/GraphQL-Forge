@@ -229,7 +229,7 @@ const EntityHandler = () => {
     //Copy to clipboard
     const handleCopyClick = async () => {
         try {
-            await navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(generateSchema());
             toast.success("Copied to clipboard!");
         } catch (err) {
             console.error(
@@ -322,6 +322,27 @@ const EntityHandler = () => {
         fieldTypeRef.current.value = '';
     }
 
+    //Remove Entity
+    const removeEntity = (index) => {
+        const newEntityList = [...entityList];
+        newEntityList.splice(index, 1);
+        setEntityList(newEntityList);
+    }
+
+    //Remove Query
+    const removeQuery = (index) => {
+        const newQueryList = [...queryList];
+        newQueryList.splice(index, 1);
+        setQueryList(newQueryList);
+    }
+
+    //Remove Mutation
+    const removeMutation = (index) => {
+        const newMutationList = [...mutationList];
+        newMutationList.splice(index, 1);
+        setMutationList(newMutationList);
+    }
+
     //Remove Field of Entity
     const removeEntityField = (EntityIndex, fieldIndex) => {
         const newEntityList = [...entityList];
@@ -377,6 +398,7 @@ const EntityHandler = () => {
                                     return <Accordion.Item eventKey={index}>
                                         <Accordion.Header>
                                             <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(e,index)} />
+                                            <button className='btn btn-danger' onClick={e => removeEntity(index)}>Remove</button>
                                         </Accordion.Header>
                                         <Accordion.Body>
                                             <ul className='list-group'>
@@ -412,6 +434,7 @@ const EntityHandler = () => {
                                     return <Accordion.Item eventKey={index}>
                                         <Accordion.Header>
                                             <input type="text" className='form-control' value={query.name} onChange={e => updateQueryName(e, index)} />
+                                            <button className='btn btn-danger' onClick={e => removeQuery(index)}>Remove</button>
                                         </Accordion.Header>
                                         <Accordion.Body>
                                             <ul className='list-group'>
@@ -447,6 +470,7 @@ const EntityHandler = () => {
                                             <input type="text" className='form-control' value={mutation.name} onChange={
                                                 e => updateMutationName(e, index)
                                             } />
+                                            <button className='btn btn-danger' onClick={e => removeMutation(index)}>Remove</button>
                                         </Accordion.Header>
                                         <Accordion.Body>
                                             <ul className='list-group'>

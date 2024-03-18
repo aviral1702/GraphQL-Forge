@@ -66,9 +66,23 @@ const QueryGenerator = () => {
   }
 
   //Copy to Clipboard
-  const handleCopyClick = async () => {
+  const handleCopyClickAppCode = async () => {
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(generateAppCode());
+      toast.success("Copied to clipboard!");
+    } catch (err) {
+      console.error(
+        "Unable to copy to clipboard.",
+        err
+      );
+      toast.error("Copy to clipboard failed.");
+    }
+  };
+
+  //Copy to Clipboard
+  const handleCopyClickSchemaCode = async () => {
+    try {
+      await navigator.clipboard.writeText(generateMongoDBSchema());
       toast.success("Copied to clipboard!");
     } catch (err) {
       console.error(
@@ -103,7 +117,7 @@ const QueryGenerator = () => {
             <div className="card">
               <div className="card-header d-flex justify-content-between">
                 <h4>App.js Code</h4>
-                <button onClick={handleCopyClick} className='btn btn-primary btn-outline-primary btn-rounded'>
+                <button onClick={handleCopyClickAppCode} className='btn btn-primary btn-outline-primary btn-rounded'>
                   <i className="fa-regular fa-copy"></i>  Copy
                 </button>
                 <Toaster />
@@ -136,7 +150,7 @@ const QueryGenerator = () => {
             <div className="card">
               <div className="card-header d-flex justify-content-between">
                 <h4>Schema.js Code</h4>
-                <button onClick={handleCopyClick} className='btn btn-primary btn-outline-primary btn-rounded'>
+                <button onClick={handleCopyClickSchemaCode} className='btn btn-primary btn-outline-primary btn-rounded'>
                   <i className="fa-regular fa-copy"></i>  Copy
                 </button>
                 <Toaster />
