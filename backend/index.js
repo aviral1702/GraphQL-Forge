@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("./connection");
 const UserRouter = require("./routers/userRouter");
+const projectRouter = require("./routers/projectRouter");
 const cors = require("cors");
 
 const app = express();
@@ -10,6 +11,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use("/user", UserRouter);
+app.use("/project", projectRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

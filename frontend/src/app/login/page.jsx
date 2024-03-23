@@ -24,6 +24,8 @@ const Login = () => {
       });
       console.log(res.status);
       if (res.status === 200) {
+        const data = await res.json();
+        sessionStorage.setItem('user', JSON.stringify(data));
         toast.success('Login successful');
         router.push('/graphqlclient');
       } else if (res.status === 401) {

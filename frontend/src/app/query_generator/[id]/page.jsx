@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import EntityHandler from './EntityHandler';
+import EntityHandler from '../EntityHandler';
 import toast,{Toaster} from 'react-hot-toast';
+import { useParams } from 'next/navigation';
 // import videoBg from '../assets/Untitled_design.mp4';
 
 const QueryGenerator = () => {
@@ -10,6 +11,41 @@ const QueryGenerator = () => {
   const [mongoDBurl, setMongoDBurl] = useState('');
   const [schema_name, setschema_name] = useState('');
   const [model_name, setmodel_name] = useState('')
+  const [projectData, setProjectData] = useState(null);
+
+  const { id } = useParams();
+
+  const getProjectData = async () => {
+     fetch(`http://localhost:5000/project/getbyid/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setProjectData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const updateProjectData = async () => {
+    fetch(`http://localhost:5000/project/update/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(projectData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      console.log(response.status);
+    }).catch((err) => {
+      console.log(err);
+    });
+  
+  }
+
+  useEffect(() => {
+    getProjectData();
+  }, []);
+  
 
   const [selQueries, setSelQueries] = useState([{
     name: 'getProduct',
@@ -93,10 +129,16 @@ const QueryGenerator = () => {
     }
   };
 
+  const updateProjectSchema = () => {
+    let temp = projectData;
+    temp.schemaList = selQueries;
+  }
+
   return (
     <div className='bg-dark'>
       {/* <video src={videoBg}></video> */}
       <div className='container-fluid'>
+        <button onClick={updateProjectData}>Update</button>
         <div className='row p-4'>
           {/* For MongoDB URL */}
           <div className="col-md-5">
@@ -107,7 +149,12 @@ const QueryGenerator = () => {
               <div className="card-body">
                 <p>To get started, provide the MongoDB URL for the database you want to connect to.</p>
                 <label htmlFor="MongoDB URL">MongoDB URL :&nbsp;</label>
-                <input type="text" className='form-control' id="MongoDB URL" value={mongoDBurl} onChange={(e) => setMongoDBurl(e.target.value)}
+                <input type="text" className='form-control' id="MongoDB URL" value={mongoDBurl} onChange={(e) => {
+                  setMongoDBurl(e.target.value)
+                  let temp = projectData;
+                  temp.config.mongoDB_URL = e.target.value;
+                  setProjectData(temp);
+                }}
                 />
               </div>
             </div>

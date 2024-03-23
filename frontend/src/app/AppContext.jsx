@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const AppContext = createContext();
 
-export const AppProvider = ({children}) => {
+export const AppProvider = ({ children }) => {
 
     const [currentUser, setCurrentUser] = useState(
         JSON.parse(sessionStorage.getItem('user'))
@@ -10,7 +10,7 @@ export const AppProvider = ({children}) => {
 
     const [loggedIn, setLoggedIn] = useState(currentUser !== null);
 
-    return <AppContext.Provider value={{loggedIn, setLoggedIn}} >
+    return <AppContext.Provider value={{ loggedIn, setLoggedIn }} >
         {children}
     </AppContext.Provider>
 }
