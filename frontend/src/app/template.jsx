@@ -29,7 +29,6 @@ const Template = ({ children }) => {
   return (
     <div>
       <AppProvider>
-        {/* <h1>Template</h1> */}
         <Navbar />
         {children}
       </AppProvider>

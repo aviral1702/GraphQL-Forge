@@ -16,15 +16,15 @@ const Navbar = () => {
 
     const [openNavColorThird, setOpenNavColorThird] = useState(false);
 
-    const {loggedIn} = useAppContext();
+    const { loggedIn } = useAppContext();
 
     const showLoginOptions = () => {
-        
+
     }
 
     return (
         <MDBNavbar expand='lg' light className='bg-dark'>
-            <MDBContainer fluid>
+            <MDBContainer>
                 <MDBNavbarBrand href='#' className='text-white'>Navbar</MDBNavbarBrand>
                 <MDBNavbarToggler
                     type='button'
@@ -38,8 +38,8 @@ const Navbar = () => {
                 </MDBNavbarToggler>
                 <MDBCollapse open={openNavColorThird} navbar>
                     <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
-                        <MDBNavbarItem className='active'>
-                            <MDBNavbarLink aria-current='page' href='/' className='text-white'>
+                        <MDBNavbarItem>
+                            <MDBNavbarLink href='/' className='text-white'>
                                 Home
                             </MDBNavbarLink>
                         </MDBNavbarItem>

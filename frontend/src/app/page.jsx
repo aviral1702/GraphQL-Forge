@@ -3,18 +3,18 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import backgroundImage from '../../public/blackbg.png';
 import './HomePage.css';
-import {ScrollReveal} from 'scrollreveal';
+import { ScrollReveal } from 'scrollreveal';
 
 const Home = () => {
   const Router = useRouter();
   return (
-    <div className="container-fluid">
+    <div style={{
+      backgroundImage: `url("https://nordicapis.com/wp-content/uploads/Walkthrough-of-Using-GraphQL-Shield-1024x576.png")`,
+      backgroundSize: "cover"
+    }}>
       {/* <video muted autoPlay loop id='bg-video'>
         <source src="BgVideo.mp4" type="video/mp4" /></video> */}
-      <div style={{
-        backgroundImage: `url("https://nordicapis.com/wp-content/uploads/Walkthrough-of-Using-GraphQL-Shield-1024x576.png")`,
-        backgroundSize: "cover"
-      }}>
+      <div className='container'>
         <div className='row px-5'>
           <p className="fs-2 pt-5 text-white" id='intro'>
             If you've seen a GraphQL query before, you know that the GraphQL query language is basically about selecting fields on objects. So, for example, in the following query:
@@ -22,7 +22,7 @@ const Home = () => {
         </div>
         <div className="row px-5 pb-5">
           <div className='table-responsive d-flex justify-content-center'>
-            <table className='table table-bordered table-dark table-hover table-sm w-50' id='table1'>
+            <table className='table table-bordered table-dark table-hover table-sm w-100' id='table1'>
               <thead>
                 <tr>
                   <th className='fs-5 text-center'>Query</th>

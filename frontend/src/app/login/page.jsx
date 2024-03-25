@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
-import toast,{Toaster} from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import * as css from './login.css';
 
 const Login = () => {
@@ -45,7 +45,7 @@ const Login = () => {
             <h1 id='title'>Have an Account ?</h1>
             <hr />
             <form onSubmit={loginForm.handleSubmit}>
-              <i class="fa-solid fa-envelope"></i>
+              <i className="fa-solid fa-envelope"></i>
               <label htmlFor="email">EMAIL</label>
               <input
                 className='form-control p-2 border border-gray-300 rounded-lg mb-4'
@@ -56,7 +56,7 @@ const Login = () => {
                 placeholder='Enter Your Email'
               />
 
-              <i class="fa-solid fa-key"></i>
+              <i className="fa-solid fa-key"></i>
               <label htmlFor="password">PASSWORD</label>
               <input
                 className='form-control p-2 border border-gray-300 rounded-lg mb-4'
@@ -69,7 +69,7 @@ const Login = () => {
 
               <button type="submit"
                 className="btn btn-danger mb-2" id='button'>Login</button>
-                <Toaster />
+              <Toaster />
 
               <div>
                 <span>

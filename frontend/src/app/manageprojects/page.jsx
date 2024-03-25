@@ -41,6 +41,7 @@ const ManageProjects = () => {
         }).then((response) => {
             console.log(response.status);
             toggleOpen();
+            fetchProjectsData();
         }).catch((err) => {
             console.log(err);
         });
