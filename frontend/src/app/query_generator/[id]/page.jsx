@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import EntityHandler from '../EntityHandler';
-import toast,{Toaster} from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'next/navigation';
+import { Accordion } from 'react-bootstrap';
 // import videoBg from '../assets/Untitled_design.mp4';
 
 const QueryGenerator = () => {
@@ -15,8 +16,54 @@ const QueryGenerator = () => {
 
   const { id } = useParams();
 
+  const [entityList, setEntityList] = useState([{
+    name: 'Product',
+    fields: [
+      {
+        name: 'id',
+        type: 'ID'
+      },
+      {
+        name: 'category',
+        type: 'String'
+      },
+      {
+        name: 'productName',
+        type: 'String'
+      },
+      {
+        name: 'price',
+        type: 'Int'
+      },
+      {
+        name: 'colors',
+        type: '[String]'
+      }
+    ]
+  }])
+
+  //Set Fields of Entity
+  const addField = (index) => {
+    if (fieldNameRef.current.value === '' || fieldTypeRef.current.value === '') return;
+    const newEntityList = [...entityList];
+    newEntityList[index].fields.push({
+      name: fieldNameRef.current.value,
+      type: fieldTypeRef.current.value
+    })
+    setEntityList(newEntityList);
+    fieldNameRef.current.value = '';
+    fieldTypeRef.current.value = '';
+  }
+
+  //Remove Field of Entity
+  const removeEntityField = (EntityIndex, fieldIndex) => {
+    const newEntityList = [...entityList];
+    newEntityList[EntityIndex].fields.splice(fieldIndex, 1);
+    setEntityList(newEntityList);
+  }
+
   const getProjectData = async () => {
-     fetch(`http://localhost:5000/project/getbyid/${id}`)
+    fetch(`http://localhost:5000/project/getbyid/${id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -39,13 +86,13 @@ const QueryGenerator = () => {
     }).catch((err) => {
       console.log(err);
     });
-  
+
   }
 
   useEffect(() => {
     getProjectData();
   }, []);
-  
+
 
   const [selQueries, setSelQueries] = useState([{
     name: 'getProduct',
@@ -187,6 +234,28 @@ const QueryGenerator = () => {
                 <p>Schema is a collection of fields that define the structure of the data that can be queried.</p>
                 <label htmlFor="schema_name">Name of Schema : &nbsp;</label>
                 <input type="text" className='form-control' value={schema_name} onChange={(e) => setschema_name(e.target.value)} />
+                <Accordion.Body>
+                  <ul className='list-group'>
+                    {
+                      entityList[0].fields.map((field) => {
+                        return <li className='list-group-item d-flex justify-content-between'>
+                          <p>{field.name} : {field.type}</p>
+                          <button
+                            className='btn btn-danger' onClick={
+                              e => removeEntityField(index, entityList.fields.indexOf(field))
+                            }>Remove</button>
+                        </li>
+                      })
+                    }
+                  </ul>
+                  <div className="input-group">
+                    <input type="text" className="form-control" ref={fieldNameRef} />
+                    <input type="text" className="form-control" ref={fieldTypeRef} />
+                    <button
+                      className='btn btn-primary'
+                      onClick={e => addField(index)}>Add Field</button>
+                  </div>
+                </Accordion.Body>
                 <label htmlFor="model_name">Name of Model : &nbsp;</label>
                 <input type="text" className='form-control' value={model_name} onChange={(e) => setmodel_name(e.target.value)} />
               </div>
