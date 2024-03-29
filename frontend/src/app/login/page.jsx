@@ -27,7 +27,7 @@ const Login = () => {
         const data = await res.json();
         sessionStorage.setItem('user', JSON.stringify(data));
         toast.success('Login successful');
-        router.push('/graphqlclient');
+        router.push('/manageprojects');
       } else if (res.status === 401) {
         toast.error('Invalid credentials');
       }

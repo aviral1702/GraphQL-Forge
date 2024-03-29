@@ -25,10 +25,6 @@ const QueryGenerator = () => {
     name: 'Schema',
     fields: [
       {
-        name: 'id',
-        type: 'ID'
-      },
-      {
         name: 'category',
         type: 'String'
       },
@@ -38,14 +34,27 @@ const QueryGenerator = () => {
       },
       {
         name: 'price',
-        type: 'Int'
+        type: 'Number'
       },
       {
         name: 'colors',
-        type: '[String]'
+        type: 'Object'
       }
     ]
   }])
+
+  //Generate Entity Fields
+  const generateEntityCode = () => {
+    return entityList.map((entity) => {
+        return `
+    const ${entity.name} = new mongoose.Schema({
+        ${entity.fields.map((field) => {
+        return `${field.name}: ${field.type}\n\t\t`
+      })}
+    })
+    module.exports = mongoose.model('${model_name}',${entity.name});`
+  })
+}
 
   useEffect(() => {
     const temp = projectData;
@@ -74,6 +83,13 @@ const QueryGenerator = () => {
     newEntityList[EntityIndex].fields.splice(fieldIndex, 1);
     setEntityList(newEntityList);
   }
+
+  //Update Entity Name
+  const updateEntityName = (e, index) => {
+    const newEntityList = [...entityList];
+    newEntityList[index].name = e.target.value;
+    setEntityList(newEntityList);
+}
 
   const getProjectData = async () => {
     fetch(`http://localhost:5000/project/getbyid/${id}`)
@@ -149,16 +165,8 @@ const QueryGenerator = () => {
   const generateMongoDBSchema = () => {
     return `
     const mongoose = require('mongoose');
-
-    const ${schema_name} = new mongoose.Schema({
-        category: String,
-        productName: String,
-        price: Number,
-        colors: Object,
-        imgPath: String,
-    })
-    
-    module.exports = mongoose.model('${model_name}', ${schema_name});`
+    ${generateEntityCode()}
+    `
   }
 
   //Copy to Clipboard
@@ -253,7 +261,6 @@ const QueryGenerator = () => {
                       return <Accordion.Item eventKey={index}>
                         <Accordion.Header>
                           <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(e, index)} />
-                          <button className='btn btn-danger' onClick={e => removeEntity(index)}>Remove</button>
                         </Accordion.Header>
                         <Accordion.Body>
                           <ul className='list-group'>

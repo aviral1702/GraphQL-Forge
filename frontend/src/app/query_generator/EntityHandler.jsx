@@ -95,7 +95,7 @@ const EntityHandler = () => {
             return `\n
             type ${entity.name} {
                 ${entity.fields.map((field) => {
-                return `${field.name}: ${field.type}`
+                return `${field.name}: ${field.type}\n\t\t\t\t`
             })}
             }`
         })

@@ -8,7 +8,8 @@ import {
     MDBNavbarLink,
     MDBNavbarToggler,
     MDBNavbarBrand,
-    MDBCollapse
+    MDBCollapse,
+    MDBCardImage
 } from 'mdb-react-ui-kit';
 import useAppContext from './AppContext';
 
@@ -25,7 +26,13 @@ const Navbar = () => {
     return (
         <MDBNavbar expand='lg' light className='bg-dark'>
             <MDBContainer>
-                <MDBNavbarBrand href='#' className='text-white'>Navbar</MDBNavbarBrand>
+                <MDBNavbarBrand href='#' className='text-white'>
+                <img
+              src='GraphQL logo.png'
+              height='50'
+              alt=''
+              loading='lazy'
+            />GraphQL Forge</MDBNavbarBrand>
                 <MDBNavbarToggler
                     type='button'
                     data-target='#navbarColor02'

@@ -3,7 +3,7 @@
     width: 100%;
     /* background-color: #ce7777; */
     background-image: url("https://img.freepik.com/premium-vector/geometric-gradient-technology-background_23-2149110132.jpg");
-    background-size: contain;
+    background-size: cover;
 }
 
 #card{

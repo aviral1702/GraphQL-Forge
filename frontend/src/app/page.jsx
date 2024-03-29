@@ -148,10 +148,10 @@ type Project {
           <button onClick={() => Router.push('signup')} type="button" className="btn btn-outline-light p-2 m-2 w-25 text-white">Signup</button>
         </div>
       </div>
-      <div className='d-flex justify-content-center p-5'>
+      <div className='d-flex justify-content-center p-5 text-black'>
         <h4 className="text-center px-5 py-4 w-50">GraphQL is a query language for your API, and a runtime for executing those queries by using a type system you define for your data. GraphQL isn't tied to any specific database or storage engine and is instead backed by your existing code and data.</h4>
       </div>
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center text-black'>
         <h4 className="text-center px-5 pb-5 w-50">A GraphQL service is created by defining types and fields on those types, then providing functions for each field on each type.</h4>
       </div>
       <div style={{
@@ -169,11 +169,11 @@ type Project {
           <button onClick={() => Router.push('/login')} type="button" className="btn btn-outline-light text-white p-2 m-2 w-25">Get Started</button>
         </div>
       </div>
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center text-black'>
         <h1 className='text-center px-5 py-4'>How GraphQL is different from REST ?</h1>
       </div>
       <div className='table-responsive d-flex justify-content-center'>
-        <table className='table table-bordered table-hover table-striped w-75'>
+        <table className='table table-bordered table-hover w-75'>
           <thead className='text-center'>
             <tr>
               <th>Parameter</th>
