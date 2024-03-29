@@ -43,7 +43,7 @@ const QueryGenerator = () => {
   }])
 
   //Set Fields of Entity
-  const addField= (index) => {
+  const addField = (index) => {
     if (fieldNameRef.current.value === '' || fieldTypeRef.current.value === '') return;
     const newEntityList = [...entityList];
     newEntityList[index].fields.push({
