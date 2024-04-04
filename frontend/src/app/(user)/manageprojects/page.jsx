@@ -15,13 +15,13 @@ import Link from 'next/link';
 
 
 const ManageProjects = () => {
-    const [basicModal, setBasicModal] = useState(false);
+    const [centredModal, setCentredModal] = useState(false);
 
     const [currentUser, setcurrentUser] = useState(JSON.parse(sessionStorage.getItem('user')));
 
     const [projectList, setProjectList] = useState([]);
 
-    const toggleOpen = () => setBasicModal(!basicModal);
+    const toggleOpen = () => setCentredModal(!centredModal);
 
     const [selProject, setSelProject] = useState(null);
 
@@ -67,8 +67,8 @@ const ManageProjects = () => {
     return (
         <>
             <MDBBtn onClick={toggleOpen}>New</MDBBtn>
-            <MDBModal open={basicModal} setOpen={setBasicModal} tabIndex='-1'>
-                <MDBModalDialog>
+            <MDBModal open={centredModal} setOpen={setCentredModal} tabIndex='-1'>
+                <MDBModalDialog centered>
                     <MDBModalContent>
                         <MDBModalHeader>
                             <MDBModalTitle>Project Description</MDBModalTitle>

@@ -206,7 +206,7 @@ const QueryGenerator = () => {
     <div className='bg-dark'>
       {/* <video src={videoBg}></video> */}
       <div className='container-fluid'>
-        <button onClick={updateProjectData}>Update</button>
+        <button className='btn btn-outline-primary' onClick={updateProjectData}>Update</button>
         <div className='row p-4'>
           {/* For MongoDB URL */}
           <div className="col-md-5">
