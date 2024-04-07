@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState } from "react";
+import toast,{ Toaster } from 'react-hot-toast';
 
 const AppContext = createContext();
 
@@ -18,6 +19,7 @@ export const AppProvider = ({ children }) => {
         setCurrentUser(null);
         setLoggedIn(false);
         router.push('/login');
+        toast.success('Logged out successfully');
     }
 
     return <AppContext.Provider value={{ loggedIn, setLoggedIn, logout }} >

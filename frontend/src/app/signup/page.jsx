@@ -12,14 +12,31 @@ const SignupSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
+    // .test('Email already exists', async (value) => {
+    //   const res = await fetch(`http://localhost:5000/user/getbyemail`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({ email: value }),
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   })
+    //   return res.status === 400;
+    // }),
   password: Yup.string()
     .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
+    .matches(/(?=.*[0-9])/, 'Password must contain a number.')
+    .required('Required'),
 });
 
 const Signup = () => {
   const router = useRouter();
+
+  const checkEmailExists = () => {
+    return true;
+  }
 
   const signupForm = useFormik({
     initialValues: {
@@ -30,6 +47,9 @@ const Signup = () => {
 
     onSubmit: async (values, { resetForm }) => {
       console.log(values);
+
+      if (checkEmailExists())
+        return
 
       const res = await fetch('http://localhost:5000/user/add', {
         method: 'POST',
@@ -45,7 +65,11 @@ const Signup = () => {
         resetForm();
         toast.success('Signup successful');
         router.push('/login');
-      } else {
+      }
+      else if (res.status === 404) {
+        toast.error('Email already exists');
+      }
+      else {
         toast.error('Something went wrong');
       }
     },
@@ -102,7 +126,7 @@ const Signup = () => {
               <button
                 type='submit'
                 className="btn btn-danger mt-4 mb-2" id='button'>Signup</button>
-                <Toaster />
+              <Toaster />
             </form>
 
             <div>
