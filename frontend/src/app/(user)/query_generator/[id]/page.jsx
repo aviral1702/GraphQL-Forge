@@ -97,6 +97,10 @@ const QueryGenerator = () => {
       .then((data) => {
         console.log(data);
         setProjectData(data);
+        setMongoDBurl(data.config.mongoDB_URL);
+        if(data.config.schemaList.length > 0)
+          setEntityList(data.config.schemaList);
+
       })
       .catch((err) => {
         console.log(err);

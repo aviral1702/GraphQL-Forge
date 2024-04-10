@@ -39,13 +39,15 @@ router.post("/authenticate", (req, res) => {
 });
 
 router.post("/getbyemail", (req, res) => {
+  // console.log(req.body);
   Model.findOne(req.body)
     .then((result) => {
+      console.log(result);
       if (result) res.status(200).json(result);
-      else res.status(400);
+      else res.status(400).json({message : 'User not found'});
     })
     .catch((err) => {
-      return
+      return res.status(500).json(err);
     });
 });
 

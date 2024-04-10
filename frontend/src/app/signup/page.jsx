@@ -46,9 +46,7 @@ const Signup = () => {
     if (res.status === 200) {
       return true;
     }
-    else {
-      return false;
-    }
+    return false;
   }
 
   const signupForm = useFormik({
@@ -59,7 +57,7 @@ const Signup = () => {
     },
 
     onSubmit: async (values, { resetForm }) => {
-      if (checkEmailExists()){
+      if (await checkEmailExists()){
         toast.error('Email already exists');
         console.log('Email already exists');
         return;
