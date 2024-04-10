@@ -42,11 +42,10 @@ router.post("/getbyemail", (req, res) => {
   Model.findOne(req.body)
     .then((result) => {
       if (result) res.status(200).json(result);
-      else res.status(400).json({ status: "failed" });
+      else res.status(400);
     })
     .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
+      return
     });
 });
 
