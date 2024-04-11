@@ -7,6 +7,7 @@ const codeSchema = new Schema({
         mongoDB_URL: '',
         port : 5500,
         schemaList: [],
+        modelName: '',
         queryList: [],
         mutationList: []
     } },

@@ -58,10 +58,13 @@ const QueryGenerator = () => {
 
   useEffect(() => {
     const temp = projectData;
-    if (temp)
+    if (temp){
       temp.config.schemaList = entityList;
+      temp.config.modelName = model_name;
+    }
+
     setProjectData(temp);
-  }, [entityList])
+  }, [entityList, model_name])
 
 
   //Set Fields of Entity
@@ -92,15 +95,15 @@ const QueryGenerator = () => {
 }
 
   const getProjectData = async () => {
-    fetch(`http://localhost:5000/project/getbyid/${id}`)
+    await fetch(`http://localhost:5000/project/getbyid/${id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         setProjectData(data);
         setMongoDBurl(data.config.mongoDB_URL);
+        setmodel_name(data.config.modelName);
         if(data.config.schemaList.length > 0)
           setEntityList(data.config.schemaList);
-
       })
       .catch((err) => {
         console.log(err);
@@ -200,11 +203,6 @@ const QueryGenerator = () => {
       toast.error("Copy to clipboard failed.");
     }
   };
-
-  const updateProjectSchema = () => {
-    let temp = projectData;
-    temp.schemaList = selQueries;
-  }
 
   return (
     <div className='bg-dark'>
