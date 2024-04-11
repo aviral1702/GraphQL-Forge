@@ -58,6 +58,7 @@ const Signup = () => {
 
     onSubmit: async (values, { resetForm }) => {
       if (await checkEmailExists()){
+        resetForm();
         toast.error('Email already exists');
         console.log('Email already exists');
         return;
@@ -82,55 +83,6 @@ const Signup = () => {
       }
     },validationSchema: SignupSchema
   });
-
-
-      // let status = 0;
-      // const checkEmailExists = async() => {
-      //   const res = await fetch('http://localhost:5000/user/getbyemail', {
-      //     method: 'POST',
-      //     body: JSON.stringify({ email: values.email }),
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     }
-      //   });
-      //   if (res.status === 200) {
-      //     return true;
-      //   }
-      //   else{
-      //   return false;
-      //   }
-      // }
-      // if (checkEmailExists()){
-        
-      //   status = 400;
-      // }
-      // else {
-      //   const res = await fetch('http://localhost:5000/user/add', {
-      //   method: 'POST',
-      //   body: JSON.stringify(values),
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // });
-      // status = res.status;
-      // }
-      // console.log(status);
-
-      // if (status === 200) {
-      //   resetForm();
-      //   toast.success('Signup successful');
-      //   router.push('/login');
-      // }
-      // else if (status === 400) {
-      //   console.log('Email already exists');
-      //   toast.error('Email already exists');
-      // }
-      // else {
-      //   toast.error('Something went wrong');
-    //   // }
-    // },
-    // validationSchema: SignupSchema
-  // });
 
   return (
     <div className='vh-100 bg-body-secondary'>
