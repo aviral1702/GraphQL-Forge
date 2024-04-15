@@ -18,8 +18,8 @@ export const AppProvider = ({ children }) => {
         sessionStorage.removeItem('user');
         setCurrentUser(null);
         setLoggedIn(false);
-        router.push('/login');
         toast.success('Logged out successfully');
+        router.push('/login');
     }
 
     return <AppContext.Provider value={{ loggedIn, setLoggedIn, logout }} >
