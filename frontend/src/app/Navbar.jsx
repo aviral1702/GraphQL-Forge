@@ -15,79 +15,75 @@ const page = () => {
         } else {
             return <div className='d-flex gap-4'>
                 <a href='/login' >
-                <button className='btn btn-info text-dark'>Login</button></a>
+                    <button className='btn btn-info text-dark'>Login</button></a>
                 <a href='/signup' >
-                <button className='btn btn-success text-dark'>Signup</button></a>
-                </div>
+                    <button className='btn btn-success text-dark'>Signup</button></a>
+            </div>
         }
     }
 
-    return (
-        <div> 
-            <>
-                {/*Main Navigation*/}
-                <header>
-                    {/* Animated navbar*/}
-                    <nav
-                        className="navbar navbar-expand-lg fixed-top navbar-scroll mb-5"
-                        data-mdb-navbar-init=""
-                    >
-                        <div className="container-fluid">
-                            <button
-                                className="navbar-toggler ps-0"
-                                type="button"
-                                data-mdb-toggle="collapse"
-                                data-mdb-target="#navbarExample01"
-                                aria-controls="navbarExample01"
-                                aria-expanded="false"
-                                aria-label="Toggle navigation"
+    return (<header>
+        {/* Animated navbar*/}
+        <nav
+            className="navbar navbar-expand-lg fixed-top navbar-scroll mb-5"
+            data-mdb-navbar-init=""
+        >
+            <div className="container-fluid">
+                <button
+                    className="navbar-toggler ps-0"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarExample01"
+                    aria-controls="navbarExample01"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="d-flex justify-content-start align-items-center">
+                        <i className="fas fa-bars" />
+                    </span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarExample01">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li className="nav-item active">
+                            <a href='#' className='text-white'>
+                                <img
+                                    src='GraphQL logo.png'
+                                    height='50'
+                                    alt=''
+                                    loading='lazy'
+                                /></a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" aria-current="page" href="/">
+                                Home
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a
+                                className="nav-link"
+                                href="https://graphql.org/"
+                                rel="nofollow"
+                                target="_blank"
                             >
-                                <span className="d-flex justify-content-start align-items-center">
-                                    <i className="fas fa-bars" />
-                                </span>
-                            </button>
-                            <div className="collapse navbar-collapse" id="navbarExample01">
-                                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                                    <li className="nav-item active">
-                                        <a href='#' className='text-white'>
-                                            <img
-                                                src='GraphQL logo.png'
-                                                height='50'
-                                                alt=''
-                                                loading='lazy'
-                                            /></a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" aria-current="page" href="/">
-                                            Home
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a
-                                            className="nav-link"
-                                            href="https://graphql.org/"
-                                            rel="nofollow"
-                                            target="_blank"
-                                        >
-                                            What is GraphQL
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a
-                                            className="nav-link"
-                                            href="https://mdbootstrap.com/docs/standard/"
-                                            target="_blank"
-                                        >
-                                            Support
-                                        </a>
-                                    </li>
-                                </ul>
-                                <ul className="navbar-nav flex-row">
-                                    {/* Icons */}
-                                    <li className="nav-item">
-                                    {showLoginOptions()}
-                                    </li>
-                                    {/* <li className="nav-item">
+                                What is GraphQL
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a
+                                className="nav-link"
+                                href="https://mdbootstrap.com/docs/standard/"
+                                target="_blank"
+                            >
+                                Support
+                            </a>
+                        </li>
+                    </ul>
+                    <ul className="navbar-nav flex-row">
+                        {/* Icons */}
+                        <li className="nav-item">
+                            {showLoginOptions()}
+                        </li>
+                        {/* <li className="nav-item">
                                         <a
                                             className="nav-link px-2"
                                             href="https://www.facebook.com/mdbootstrap"
@@ -117,13 +113,13 @@ const page = () => {
                                             <i className="fab fa-github" />
                                         </a>
                                     </li> */}
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                    {/* Animated navbar */}
-                    {/* Background image */}
-                    {/* <div
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {/* Animated navbar */}
+        {/* Background image */}
+        {/* <div
                         id="intro"
                         className="bg-image"
                         style={{
@@ -149,21 +145,8 @@ const page = () => {
                             </div>
                         </div>
                     </div> */}
-                    {/* Background image */}
-                </header>
-                {/*Main Navigation*/}
-                {/* <div className="container my-5">
-                    <p>
-                        {" "}
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis quam
-                        minima perspiciatis eos tenetur. Praesentium dolores at quos aperiam sed,
-                        sint provident consectetur incidunt, nostrum porro earum commodi, ex
-                        architecto.
-                    </p>
-                </div> */}
-            </>
-
-        </div>
+        {/* Background image */}
+    </header>
     )
 }
 

@@ -1,5 +1,5 @@
 'use client';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import backgroundImage from '../../public/blackbg.png';
 import './HomePage.css';
@@ -11,33 +11,34 @@ const Home = () => {
 
   const { loggedIn, logout } = useAppContext();
 
-    const showLoginOptions = () => {
-        if (loggedIn) {
-            return <div className='d-flex justify-content-center pb-5 gap-5'>
-              <a onClick={logout}>
-                <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Logout</button>
-            </a>
-            </div>
-        } else {
-            return <div className='d-flex justify-content-center pb-5 gap-5'>
-              <a href='/login' >
-            <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Login</button></a>
-            <a href='/signup' >
-            <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Signup</button></a>
-            </div> 
-        }
+  const showLoginOptions = () => {
+    if (loggedIn) {
+      return <div className='d-flex justify-content-center pb-5 gap-5'>
+        <a onClick={logout}>
+          <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Logout</button>
+        </a>
+      </div>
+    } else {
+      return <div className='d-flex justify-content-center pb-5 gap-5'>
+        <a href='/login' >
+          <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Login</button></a>
+        <a href='/signup' >
+          <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Signup</button></a>
+      </div>
     }
+  }
 
-    const getStarted = () => {
-      if (loggedIn) {
-        Router.push('/manageprojects');
-        return;
-      } else {
-        Router.push('/login');
-      }
+  const getStarted = () => {
+    if (loggedIn) {
+      Router.push('/manageprojects');
+      return;
+    } else {
+      Router.push('/login');
+    }
   }
   return (
     <div style={{
+      paddingTop: 50,
       backgroundImage: `url("https://nordicapis.com/wp-content/uploads/Walkthrough-of-Using-GraphQL-Shield-1024x576.png")`,
       backgroundSize: "cover"
     }}>
