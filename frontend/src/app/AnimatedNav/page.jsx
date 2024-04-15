@@ -56,14 +56,14 @@ const page = () => {
                     /></a>
                     </li>
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="#intro">
+              <a className="nav-link" aria-current="page" href="/">
                 Home
               </a>
             </li>
             <li className="nav-item">
               <a
                 className="nav-link"
-                href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA"
+                href="https://graphql.org/"
                 rel="nofollow"
                 target="_blank"
               >
