@@ -47,6 +47,17 @@ const ManageProjects = () => {
         });
     }
 
+    const deleteProject = (id) => {
+        fetch(`http://localhost:5000/project/delete/${id}`, {
+            method: 'DELETE'
+        }).then((response) => {
+            console.log(response.status);
+            fetchProjectsData();
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     const fetchProjectsData = () => {
         fetch(`http://localhost:5000/project/getbyuser/${currentUser._id}`)
             .then((response) => response.json())
@@ -66,7 +77,9 @@ const ManageProjects = () => {
 
     return (
         <>
-            <MDBBtn onClick={toggleOpen}>New</MDBBtn>
+            <div className='text-center mt-5'>
+                <MDBBtn onClick={toggleOpen}>New</MDBBtn>
+            </div>
             <MDBModal open={centredModal} setOpen={setCentredModal} tabIndex='-1'>
                 <MDBModalDialog centered>
                     <MDBModalContent>
@@ -102,7 +115,7 @@ const ManageProjects = () => {
                                                 <button className='btn btn-primary btn-sm'
                                                     onClick={() => setSelProject(project)}
                                                 >View</button>
-                                                <button className='btn btn-danger btn-sm float-end'>Delete</button>
+                                                <button className='btn btn-danger btn-sm float-end' onClick={() => deleteProject(project._id)}>Delete</button>
                                             </li>
                                         )
                                     })
