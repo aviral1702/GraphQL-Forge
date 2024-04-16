@@ -1,6 +1,6 @@
-"use client";
+"use strict";
 import React, { useState } from 'react'
-import * as css from './navbar.css';
+import './navbar.css';
 import useAppContext from './AppContext';
 
 const page = () => {
