@@ -1,13 +1,20 @@
 'use client';
 import { Editor } from '@monaco-editor/react';
+import { MDBCard, MDBCardBody, MDBCheckbox, MDBRadio } from 'mdb-react-ui-kit';
 import React, { useRef, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
+import { crudOperations } from './CrudGenerator';
+
+const mutationOptions = ['add', 'update', 'delete'];
+const queryOptions = ['readAll', 'readByField', 'readById'];
 
 const EntityHandler = () => {
 
     const fieldNameRef = useRef(null);
     const fieldTypeRef = useRef(null);
+
+    const [selMutations, setSelMutations] = useState('add');
 
     //Use state for entityList, queryList, mutationList
     const [entityList, setEntityList] = useState([{
@@ -86,6 +93,7 @@ const EntityHandler = () => {
                     required: true
                 }
             ],
+            type: 'add'
         }
     ])
 
@@ -125,11 +133,24 @@ const EntityHandler = () => {
         })
     }
 
+    const titleCase = (str) => {
+        return str.replace(
+            /\w\S*/g,
+            function(txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+          )
+    }
+
     //Generate Backend Code
     const generateSchema = () => {
         return `
         const { gql } = require('apollo-server-express');
-        const ProductModel = require("./models/productSchema");
+        ${
+            entityList.map((entity) => (
+                `\nconst ${titleCase(entity.name)}Model = require("./models/${entity.name}Schema");`
+            ))
+        }
         
         const mongoose = require('mongoose');
         
@@ -165,63 +186,21 @@ const EntityHandler = () => {
                     return result;
                 }
             },
+
+            ${entityList.map((entity) => (
+                `Mutation: {
+                    ${mutationList.map((mutation) => (
+                `\n\t\t${mutation.name}: async (parent, args) => {
+                            await connect();
+                            const result = ${crudOperations[mutation.type](entity.name)}
+                            return result;
+                        }`
+            ))}
+                   
+                }`
+            ))}
         
-            Mutation: {
-                updateProduct: async (parent, args) => {
-                    await connect();
-                    const result = ProductModel.findByIdAndUpdate(args.id, 
-                        {
-                            productName: args.productName,
-                            category: args.category,
-                            price: args.price,
-                            imgPath: args.imgPath,
-                            colors: args.colors
-                        }, {new: true}).then((res) => {
-                            if (res) {
-                                return res;
-                            }
-                        })
-                    return result;
-                },
-                addProduct :  async (parent, args) => {
-                    await connect();
-                    let product = new ProductModel({
-                        productName: args.productName,
-                        category: args.category,
-                        price: args.price,
-                        imgPath: args.imgPath,
-                        colors: args.colors
-                    });
-                   const result = product.save().then((res) => {
-                        return res;
-                    })
-                    return result;
-                    // const result = ProductModel.insertMany([
-                    //     {
-                    //         productName: args.productName,
-                    //         category: args.category,
-                    //         price: args.price,
-                    //         imgPath: args.imgPath,
-                    //         colors: args.colors
-                    //     }
-                    // ]).then((res) => {
-                    //     if (res) {
-                    //         return res;
-                    //     }
-                    // })
-                    // return result;
-                },
-                deleteProduct:  async (parent, args) => {
-                    try {
-                        await connect();
-                        await ProductModel.findOneAndRemove({_id: args.id});
-                        return true;
-                    } catch (error) {
-                        console.log('Error while delete:',error);
-                        return false;
-                    }    
-                }
-            }
+            
         }
         `
     }
@@ -279,6 +258,7 @@ const EntityHandler = () => {
                     required: true
                 }
             ],
+            type: 'add',
             returnType: 'Product'
         }])
     }
@@ -386,143 +366,178 @@ const EntityHandler = () => {
     }
 
     return (
-        <div className="row p-4">
-            {/* For Operations Code */}
-            <div className='col-md-5'>
-                <div className='card'>
-                    <div className='card-header'>
-                        <h4>Operations</h4>
-                        <Accordion defaultActiveKey="0">
-                            {
-                                entityList.map((entity, index) => {
-                                    return <Accordion.Item eventKey={index}>
-                                        <Accordion.Header>
-                                            <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(e,index)} />
-                                            <button className='btn btn-danger' onClick={e => removeEntity(index)}>Remove</button>
-                                        </Accordion.Header>
-                                        <Accordion.Body>
-                                            <ul className='list-group'>
-                                                {
-                                                    entity.fields.map((field) => {
-                                                        return <li className='list-group-item d-flex justify-content-between'>
-                                                            <p>{field.name} : {field.type}</p>
-                                                            <button
-                                                                className='btn btn-danger' onClick={
-                                                                    e => removeEntityField(index, entity.fields.indexOf(field))
-                                                                }>Remove</button>
-                                                        </li>
-                                                    })
-                                                }
-                                            </ul>
-                                            <div className="input-group">
-                                                <input type="text" className="form-control" ref={fieldNameRef} />
-                                                <input type="text" className="form-control" ref={fieldTypeRef} />
-                                                <button
-                                                    className='btn btn-primary'
-                                                    onClick={e => addField(index)}>Add Field</button>
-                                            </div>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                })
-                            }
-                        </Accordion>
-                        <button className='btn btn-primary' onClick={addEntity}>Add Entity</button>
+        <>
+            <div className="row p-4">
+                {/* For Operations Code */}
+                <div className='col-md-5'>
+                    <div className='card'>
+                        <div className='card-header'>
+                            <h4>Operations</h4>
+                            <Accordion defaultActiveKey="0">
+                                {
+                                    entityList.map((entity, index) => {
+                                        return <Accordion.Item eventKey={index}>
+                                            <Accordion.Header>
+                                                <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(e, index)} />
+                                                <button className='btn btn-danger' onClick={e => removeEntity(index)}>Remove</button>
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <ul className='list-group'>
+                                                    {
+                                                        entity.fields.map((field) => {
+                                                            return <li className='list-group-item d-flex justify-content-between'>
+                                                                <p>{field.name} : {field.type}</p>
+                                                                <button
+                                                                    className='btn btn-danger' onClick={
+                                                                        e => removeEntityField(index, entity.fields.indexOf(field))
+                                                                    }>Remove</button>
+                                                            </li>
+                                                        })
+                                                    }
+                                                </ul>
+                                                <div className="input-group">
+                                                    <input type="text" className="form-control" ref={fieldNameRef} />
+                                                    <input type="text" className="form-control" ref={fieldTypeRef} />
+                                                    <button
+                                                        className='btn btn-primary'
+                                                        onClick={e => addField(index)}>Add Field</button>
+                                                </div>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    })
+                                }
+                            </Accordion>
+                            <button className='btn btn-primary' onClick={addEntity}>Add Entity</button>
 
-                        <Accordion defaultActiveKey="0">
-                            {
-                                queryList.map((query, index) => {
-                                    return <Accordion.Item eventKey={index}>
-                                        <Accordion.Header>
-                                            <input type="text" className='form-control' value={query.name} onChange={e => updateQueryName(e, index)} />
-                                            <button className='btn btn-danger' onClick={e => removeQuery(index)}>Remove</button>
-                                        </Accordion.Header>
-                                        <Accordion.Body>
-                                            <ul className='list-group'>
-                                                {
-                                                    query.parameters.map((parameter) => {
-                                                        return <li className='list-group-item d-flex justify-content-between'>
-                                                            <p>{parameter.name} : {parameter.type}</p>
-                                                            <button
-                                                                className='btn btn-danger' onClick={e => removeQueryParameter(index,query.parameters.indexOf(parameter))}>Remove</button>
-                                                        </li>
-                                                    })
-                                                }
-                                            </ul>
-                                            <div className="input-group">
-                                                <input type="text" className="form-control" ref={fieldNameRef} />
-                                                <input type="text" className="form-control" ref={fieldTypeRef} />
-                                                <button
-                                                    className='btn btn-primary'
-                                                    onClick={e => addParameter(index)}>Add Parameter</button>
-                                            </div>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                })
-                            }
-                        </Accordion>
-                        <button className='btn btn-primary' onClick={addQuery}>Add Query</button>
+                            <Accordion defaultActiveKey="0">
+                                {
+                                    queryList.map((query, index) => {
+                                        return <Accordion.Item eventKey={index}>
+                                            <Accordion.Header>
+                                                <input type="text" className='form-control' value={query.name} onChange={e => updateQueryName(e, index)} />
+                                                <button className='btn btn-danger' onClick={e => removeQuery(index)}>Remove</button>
+                                            </Accordion.Header>
+                                            <Accordion.Body>
+                                                <ul className='list-group'>
+                                                    {
+                                                        query.parameters.map((parameter) => {
+                                                            return <li className='list-group-item d-flex justify-content-between'>
+                                                                <p>{parameter.name} : {parameter.type}</p>
+                                                                <button
+                                                                    className='btn btn-danger' onClick={e => removeQueryParameter(index, query.parameters.indexOf(parameter))}>Remove</button>
+                                                            </li>
+                                                        })
+                                                    }
+                                                </ul>
+                                                <div className="input-group">
+                                                    <input type="text" className="form-control" ref={fieldNameRef} />
+                                                    <input type="text" className="form-control" ref={fieldTypeRef} />
+                                                    <button
+                                                        className='btn btn-primary'
+                                                        onClick={e => addParameter(index)}>Add Parameter</button>
+                                                </div>
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                    })
+                                }
+                            </Accordion>
+                            <button className='btn btn-primary' onClick={addQuery}>Add Query</button>
 
-                        <Accordion defaultActiveKey="0">
-                            {
-                                mutationList.map((mutation, index) => {
-                                    return <Accordion.Item key={index}>
-                                        <Accordion.Header>
-                                            <input type="text" className='form-control' value={mutation.name} onChange={
-                                                e => updateMutationName(e, index)
-                                            } />
-                                            <button className='btn btn-danger' onClick={e => removeMutation(index)}>Remove</button>
-                                        </Accordion.Header>
-                                        <Accordion.Body>
+
+                        </div>
+                        <div className="card-body">
+
+                            <div className='types-editor'>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                {/* For GraphQLSchema.js code */}
+                <div className="col-md-7">
+                    <div className="card">
+                        <div className="card-header d-flex justify-content-between">
+                            <h4>GraphQLSchema.js Code</h4>
+                            <button onClick={handleCopyClick} className='btn btn-primary btn-outline-primary btn-rounded'>
+                                <i className="fa-regular fa-copy"></i>  Copy
+                            </button>
+                            <Toaster />
+                        </div>
+                        <div className="card-body">
+                            <Editor theme='vs-dark' height="50vh" defaultLanguage="javascript" value={generateSchema()} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <MDBCard className='my-5'>
+                <MDBCardBody>
+
+                    <Accordion defaultActiveKey="0">
+                        {
+                            mutationList.map((mutation, index) => {
+                                return <><Accordion.Item key={index}>
+                                    <Accordion.Header>
+                                        <input type="text" className='form-control' value={mutation.name} onChange={
+                                            e => updateMutationName(e, index)
+                                        } />
+                                        <button className='btn btn-danger' onClick={e => removeMutation(index)}>Remove</button>
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                                    <div className="row">
+                                        {/* <div className="col-md-4">
+
                                             <ul className='list-group'>
                                                 {
                                                     mutation.parameters.map((parameter) => {
                                                         return <li className='list-group-item d-flex justify-content-between'>
                                                             <p>{parameter.name} : {parameter.type}</p>
                                                             <button
-                                                                className='btn btn-danger' onClick={e => removeMutationParameter(index,mutation.parameters.indexOf(parameter))}>Remove</button>
+                                                                className='btn btn-danger' onClick={e => removeMutationParameter(index, mutation.parameters.indexOf(parameter))}>Remove</button>
                                                         </li>
                                                     })
                                                 }
                                             </ul>
-                                            <div className="input-group">
-                                                <input type="text" className="form-control" ref={fieldNameRef} />
-                                                <input type="text" className="form-control" ref={fieldTypeRef} />
-                                                <button
-                                                    className='btn btn-primary'
-                                                    onClick={e => addMutationParameter(index)}>Add Mutation Parameter</button>
-                                            </div>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                })
-                            }
-                        </Accordion>
-                        <button className='btn btn-primary' onClick={addMutation}>Add Mutation</button>
-                    </div>
-                    <div className="card-body">
+                                        </div> */}
+                                        <div className="col-md-4">
 
-                        <div className='types-editor'>
+                                            {
+                                                mutationOptions.map((option) => (
 
-                        </div>
+                                                    <MDBRadio label={option} name={mutation.name} checked={mutation.type === option}
+                                                        onChange={
+                                                            e => {
+                                                                const newMutationList = [...mutationList];
+                                                                newMutationList[index].type = option;
+                                                                setMutationList(newMutationList);
+                                                            }
+                                                        }
+                                                    />
+                                                ))
+                                            }
 
-                    </div>
-                </div>
-            </div>
-            {/* For GraphQLSchema.js code */}
-            <div className="col-md-7">
-                <div className="card">
-                    <div className="card-header d-flex justify-content-between">
-                        <h4>GraphQLSchema.js Code</h4>
-                        <button onClick={handleCopyClick} className='btn btn-primary btn-outline-primary btn-rounded'>
-                            <i className="fa-regular fa-copy"></i>  Copy
-                        </button>
-                        <Toaster />
-                    </div>
-                    <div className="card-body">
-                        <Editor theme='vs-dark' height="50vh" defaultLanguage="javascript" value={generateSchema()} />
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        </div>
+                                        <div className="col-md-4"></div>
+                                    </div>
+                                    <div className="input-group mt-5">
+                                        <input type="text" className="form-control" ref={fieldNameRef} />
+                                        <input type="text" className="form-control" ref={fieldTypeRef} />
+                                        <button
+                                            className='btn btn-primary'
+                                            onClick={e => addMutationParameter(index)}>Add Mutation Parameter</button>
+                                    </div>
+                                </>
+                            })
+                        }
+                    </Accordion>
+                    <button className='btn btn-primary' onClick={addMutation}>Add Mutation</button>
+
+                </MDBCardBody>
+            </MDBCard>
+        </>
     )
 }
 

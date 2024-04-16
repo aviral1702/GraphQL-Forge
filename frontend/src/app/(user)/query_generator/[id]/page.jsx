@@ -205,7 +205,7 @@ const QueryGenerator = () => {
   };
 
   return (
-    <div className='bg-dark'>
+    <div className='bg-dark pt-5'>
       {/* <video src={videoBg}></video> */}
       <div className='container-fluid'>
         <button className='btn btn-outline-primary' onClick={updateProjectData}>Update</button>

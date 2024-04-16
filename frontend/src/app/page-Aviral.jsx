@@ -1,20 +1,50 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import backgroundImage from '../../public/blackbg.png';
 import './HomePage.css';
-import ScrollReveal from 'scrollreveal';
+import { ScrollReveal } from 'scrollreveal';
+import useAppContext from './AppContext';
 
 const Home = () => {
   const Router = useRouter();
+
+  const { loggedIn, logout } = useAppContext();
+
+  const showLoginOptions = () => {
+    if (loggedIn) {
+      return <div className='d-flex justify-content-center pb-5 gap-5'>
+        <a onClick={logout}>
+          <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Logout</button>
+        </a>
+      </div>
+    } else {
+      return <div className='d-flex justify-content-center pb-5 gap-5'>
+        <a href='/login' >
+          <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Login</button></a>
+        <a href='/signup' >
+          <button className='btn btn-outline-light px-5 m-2 w-100 text-white btn-lg'>Signup</button></a>
+      </div>
+    }
+  }
+
+  const getStarted = () => {
+    if (loggedIn) {
+      Router.push('/manageprojects');
+      return;
+    } else {
+      Router.push('/login');
+    }
+  }
   return (
-    <div className="container-fluid">
+    <div style={{
+      paddingTop: 50,
+      backgroundImage: `url("https://nordicapis.com/wp-content/uploads/Walkthrough-of-Using-GraphQL-Shield-1024x576.png")`,
+      backgroundSize: "cover"
+    }}>
       {/* <video muted autoPlay loop id='bg-video'>
         <source src="BgVideo.mp4" type="video/mp4" /></video> */}
-      <div style={{
-        backgroundImage: `url("https://nordicapis.com/wp-content/uploads/Walkthrough-of-Using-GraphQL-Shield-1024x576.png")`,
-        backgroundSize: "cover"
-      }}>
+      <div className='container'>
         <div className='row px-5'>
           <p className="fs-2 pt-5 text-white" id='intro'>
             If you've seen a GraphQL query before, you know that the GraphQL query language is basically about selecting fields on objects. So, for example, in the following query:
@@ -22,7 +52,7 @@ const Home = () => {
         </div>
         <div className="row px-5 pb-5">
           <div className='table-responsive d-flex justify-content-center'>
-            <table className='table table-bordered table-dark table-hover table-sm w-50' id='table1'>
+            <table className='table table-bordered table-dark table-hover table-sm w-100' id='table1'>
               <thead>
                 <tr>
                   <th className='fs-5 text-center'>Query</th>
@@ -143,15 +173,16 @@ type Project {
             </div>
           </div>
         </div>
-        <div className="d-flex justify-content-center pb-5">
-          <button onClick={() => Router.push('login')} type="button" className="btn btn-outline-light p-2 m-2 w-25 text-white">Login</button>
-          <button onClick={() => Router.push('signup')} type="button" className="btn btn-outline-light p-2 m-2 w-25 text-white">Signup</button>
+        <div>
+          {showLoginOptions()}
+          {/* <button onClick={() => Router.push('login')} type="button" className="btn btn-outline-light p-2 m-2 w-25 text-white">Login</button>
+          <button onClick={() => Router.push('signup')} type="button" className="btn btn-outline-light p-2 m-2 w-25 text-white">Signup</button> */}
         </div>
       </div>
-      <div className='d-flex justify-content-center p-5'>
+      <div className='d-flex justify-content-center p-5 text-black'>
         <h4 className="text-center px-5 py-4 w-50">GraphQL is a query language for your API, and a runtime for executing those queries by using a type system you define for your data. GraphQL isn't tied to any specific database or storage engine and is instead backed by your existing code and data.</h4>
       </div>
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center text-black'>
         <h4 className="text-center px-5 pb-5 w-50">A GraphQL service is created by defining types and fields on those types, then providing functions for each field on each type.</h4>
       </div>
       <div style={{
@@ -166,14 +197,14 @@ type Project {
           <h3 className='text-center' id='code_generate'>Click on the below button to get the code.</h3>
         </div>
         <div className="d-flex justify-content-center p-5">
-          <button onClick={() => Router.push('/login')} type="button" className="btn btn-outline-light text-white p-2 m-2 w-25">Get Started</button>
+          <button onClick={getStarted} type="button" className="btn btn-outline-light text-white p-2 m-2 w-25">Get Started</button>
         </div>
       </div>
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center text-black'>
         <h1 className='text-center px-5 py-4'>How GraphQL is different from REST ?</h1>
       </div>
       <div className='table-responsive d-flex justify-content-center'>
-        <table className='table table-bordered table-hover table-striped w-75'>
+        <table className='table table-bordered table-hover w-75'>
           <thead className='text-center'>
             <tr>
               <th>Parameter</th>
