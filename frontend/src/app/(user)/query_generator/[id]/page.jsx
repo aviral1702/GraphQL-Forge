@@ -61,6 +61,7 @@ const QueryGenerator = () => {
     if (temp) {
       temp.config.schemaList = entityList;
       temp.config.modelName = model_name;
+      temp.config.mutationList =  mutationList;
     }
 
     setProjectData(temp);
@@ -110,25 +111,26 @@ const QueryGenerator = () => {
       });
   }
 
-  const updateProjectData = async () => {
-    const res = await fetch(`http://localhost:5000/project/update/${id}`, {
+  const updateProjectData = () => {
+    fetch(`http://localhost:5000/project/update/${id}`, {
       method: 'PUT',
       body: JSON.stringify(projectData),
       headers: {
         'Content-Type': 'application/json'
       }
-      // }).then((res) => {
-      //   console.log(res.status);
-      // }).catch((err) => {
-      //   console.log(err);
+    }).then((res) => {
+      console.log(res.status);
+      if (res.status === 200) {
+        toast.success('Project updated successfully');
+        res.json().then(data => {
+          console.log(data);
+        })
+      } else {
+        toast.error('Project update failed');
+      }
+    }).catch((err) => {
+      console.log(err);
     });
-    console.log(res.status);
-    if (res.status === 200) {
-      toast.success('Project updated successfully');
-    }
-    else {
-      toast.error('Project update failed');
-    }
   }
 
   useEffect(() => {

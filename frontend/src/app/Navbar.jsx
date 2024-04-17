@@ -15,9 +15,9 @@ const page = () => {
         } else {
             return <div className='d-flex gap-4'>
                 <a href='/login' >
-                    <button className='btn btn-info text-dark'>Login</button></a>
+                    <button className='btn btn-info'>Login</button></a>
                 <a href='/signup' >
-                    <button className='btn btn-success text-dark'>Signup</button></a>
+                    <button className='btn btn-success'>Signup</button></a>
             </div>
         }
     }
