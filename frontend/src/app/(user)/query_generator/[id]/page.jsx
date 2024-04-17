@@ -245,7 +245,6 @@ const QueryGenerator = () => {
                 <button onClick={handleCopyClickAppCode} className='btn btn-primary btn-outline-primary btn-rounded'>
                   <i className="fa-regular fa-copy"></i>  Copy
                 </button>
-                <Toaster />
               </div>
               <div className="card-body">
                 <Editor theme='vs-dark' height="50vh" defaultLanguage="javascript" value={generateAppCode()} />

@@ -152,7 +152,6 @@ const Signup = () => {
               <button
                 type='submit'
                 className="btn btn-danger mt-4 mb-2" id='button'>Signup</button>
-              <Toaster />
             </form>
 
             <div>

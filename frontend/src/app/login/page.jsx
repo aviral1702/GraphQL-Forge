@@ -69,7 +69,6 @@ const Login = () => {
 
               <button type="submit"
                 className="btn btn-danger mb-2" id='button'>Login</button>
-              <Toaster />
 
               <div>
                 <span>
