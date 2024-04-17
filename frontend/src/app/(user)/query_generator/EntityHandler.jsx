@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { crudOperations } from './CrudGenerator';
+import { mongoDBurl } from "./[id]/page";
 
 const mutationOptions = ['add', 'update', 'delete'];
 const queryOptions = ['readAll', 'readByField', 'readById'];
@@ -100,7 +101,7 @@ const EntityHandler = () => {
     //Generate Entity Fields
     const generateEntityCode = () => {
         return entityList.map((entity) => {
-            return `\n
+            return `
             type ${entity.name} {
                 ${entity.fields.map((field) => {
                 return `${field.name}: ${field.type}\n\t\t\t\t`
@@ -112,7 +113,7 @@ const EntityHandler = () => {
     //Generate Query Parameters
     const generateQueryCode = () => {
         return queryList.map((query) => {
-            return `\n
+            return `
             type Query{
                 ${query.name}(${query.parameters.map((parameter) => {
                 return `${parameter.name}: ${parameter.type}${parameter.required ? '!' : ''}`
@@ -124,7 +125,7 @@ const EntityHandler = () => {
     //Generate Mutation Parameters
     const generateMutationCode = () => {
         return mutationList.map((mutation) => {
-            return `\n
+            return `
             type Mutation{
                 ${mutation.name}(${mutation.parameters.map((parameter) => {
                 return `${parameter.name}: ${parameter.type}${parameter.required ? '!' : ''}`
@@ -148,10 +149,9 @@ const EntityHandler = () => {
         const { gql } = require('apollo-server-express');
         ${
             entityList.map((entity) => (
-                `\nconst ${titleCase(entity.name)}Model = require("./models/${entity.name}Schema");`
+                `const ${titleCase(entity.name)}Model = require("./models/${entity.name}Schema");`
             ))
         }
-        
         const mongoose = require('mongoose');
         
         exports.typeDefs = gql \`
@@ -159,8 +159,7 @@ const EntityHandler = () => {
         ${generateQueryCode()}
         ${generateMutationCode()}
         
-        const db_url = 'mongodb+srv://aviral:1702@cluster0.i2jaaun.mongodb.net/products';
-        
+        const db_url = "${mongoDBurl}";
         const connect = async () => {
             await mongoose.connect(db_url, { useNewUrlParser: true });
         }
@@ -189,20 +188,15 @@ const EntityHandler = () => {
 
             ${entityList.map((entity) => (
                 `Mutation: {
-                    ${mutationList.map((mutation) => (
-                `\n\t\t${mutation.name}: async (parent, args) => {
-                            await connect();
-                            const result = ${crudOperations[mutation.type](entity.name)}
-                            return result;
-                        }`
-            ))}
-                   
-                }`
-            ))}
-        
-            
-        }
-        `
+        ${mutationList.map((mutation) => (
+                `\n\n\t\t\t\t${mutation.name}: async (parent, args) => {
+                               await connect();
+                               const result = ${crudOperations[mutation.type](entity.name)}
+                               return result;
+                            }`))}      
+                    }`))}   
+            }
+    }`
     }
 
     //Copy to clipboard
@@ -443,7 +437,6 @@ const EntityHandler = () => {
                             </Accordion>
                             <button className='btn btn-primary' onClick={addQuery}>Add Query</button>
 
-
                         </div>
                         <div className="card-body">
 
@@ -473,7 +466,6 @@ const EntityHandler = () => {
 
             <MDBCard className='my-5'>
                 <MDBCardBody>
-
                     <Accordion defaultActiveKey="0">
                         {
                             mutationList.map((mutation, index) => {
@@ -485,11 +477,8 @@ const EntityHandler = () => {
                                         <button className='btn btn-danger' onClick={e => removeMutation(index)}>Remove</button>
                                     </Accordion.Header>
                                     <Accordion.Body>
-                                    </Accordion.Body>
-                                </Accordion.Item>
                                     <div className="row">
                                         {/* <div className="col-md-4">
-
                                             <ul className='list-group'>
                                                 {
                                                     mutation.parameters.map((parameter) => {
@@ -503,7 +492,6 @@ const EntityHandler = () => {
                                             </ul>
                                         </div> */}
                                         <div className="col-md-4">
-
                                             {
                                                 mutationOptions.map((option) => (
 
@@ -522,13 +510,15 @@ const EntityHandler = () => {
                                         </div>
                                         <div className="col-md-4"></div>
                                     </div>
-                                    <div className="input-group mt-5">
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                                    {/* <div className="input-group mt-5">
                                         <input type="text" className="form-control" ref={fieldNameRef} />
                                         <input type="text" className="form-control" ref={fieldTypeRef} />
                                         <button
                                             className='btn btn-primary'
                                             onClick={e => addMutationParameter(index)}>Add Mutation Parameter</button>
-                                    </div>
+                                    </div> */}
                                 </>
                             })
                         }

@@ -34,6 +34,23 @@ const SignupSchema = Yup.object().shape({
 const Signup = () => {
   const router = useRouter();
 
+  const sendOTP = async () => {
+    const res = await fetch('http://localhost:5000/OTP/sendotp', {
+      method: 'POST',
+      body: JSON.stringify({ email: signupForm.values.email }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(res.status);
+    if (res.status === 201) {
+      toast.success('OTP sent successfully');
+    }
+    else {
+      toast.error('Something went wrong');
+    }
+  }
+
   const checkEmailExists = async () => {
     const res = await fetch('http://localhost:5000/user/getbyemail', {
       method: 'POST',
@@ -87,7 +104,7 @@ const Signup = () => {
   return (
     <div className='vh-100 bg-body-secondary'>
       <div className="py-5" id='signup-page'>
-        <div className="card" id='card'>
+        <div className="card mt-5" id='card'>
           <div className="card-body">
             <h1 className='title'>Register Yourself !!!</h1>
             <hr />
@@ -118,6 +135,7 @@ const Signup = () => {
                 onChange={signupForm.handleChange}
                 placeholder='Enter Your Email'
               />
+              {/* <button type='submit' className='btn btn-success' onClick={sendOTP}>Send OTP</button> */}
 
               <i class="fa-solid fa-key"></i>
               <label htmlFor="password">Password</label>

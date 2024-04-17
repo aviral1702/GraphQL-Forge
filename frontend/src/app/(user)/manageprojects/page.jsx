@@ -12,6 +12,7 @@ import {
     MDBInput,
 } from 'mdb-react-ui-kit';
 import Link from 'next/link';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const ManageProjects = () => {
@@ -47,15 +48,22 @@ const ManageProjects = () => {
         });
     }
 
-    const deleteProject = (id) => {
-        fetch(`http://localhost:5000/project/delete/${id}`, {
+    const deleteProject = async (id) => {
+        const res = await fetch(`http://localhost:5000/project/delete/${id}`, {
             method: 'DELETE'
-        }).then((response) => {
-            console.log(response.status);
-            fetchProjectsData();
-        }).catch((err) => {
-            console.log(err);
+            // }).then((response) => {
+            //     console.log(response.status);
+            //     fetchProjectsData();
+            // }).catch((err) => {
+            //     console.log(err);
         });
+        console.log(res.status);
+        if (res.status === 200) {
+            fetchProjectsData();
+            toast.success('Project Deleted');
+        } else {
+            toast.error('Error Deleting Project');
+        }
     }
 
     const fetchProjectsData = () => {
@@ -77,7 +85,7 @@ const ManageProjects = () => {
 
     return (
         <>
-            <div className='text-center mt-5'>
+            <div className='text-center pt-5 mt-5'>
                 <MDBBtn onClick={toggleOpen}>New</MDBBtn>
             </div>
             <MDBModal open={centredModal} setOpen={setCentredModal} tabIndex='-1'>
@@ -122,13 +130,15 @@ const ManageProjects = () => {
                                 }
                             </ul>
                         </div>
-                        <div className="col-md-9">
+                        <div className="col-md-9 text-center">
                             {
                                 selProject !== null && (
-                                    <div>
+                                    <div className='mt-3'>
                                         <h1>{selProject.name}</h1>
                                         <p>{selProject.tagline}</p>
-                                        <Link className='btn btn-primary' href={'/query_generator/' + selProject._id}>Edit Project</Link>
+                                        <div className="d-flex gap-5 justify-content-center">
+                                            <Link className='btn btn-primary' href={'/query_generator/' + selProject._id}>Edit Project</Link>
+                                        </div>
                                     </div>
                                 )
                             }

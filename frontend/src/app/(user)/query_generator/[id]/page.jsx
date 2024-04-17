@@ -46,19 +46,19 @@ const QueryGenerator = () => {
   //Generate Entity Fields
   const generateEntityCode = () => {
     return entityList.map((entity) => {
-        return `
+      return `
     const ${entity.name} = new mongoose.Schema({
         ${entity.fields.map((field) => {
         return `${field.name}: ${field.type}\n\t\t`
       })}
     })
     module.exports = mongoose.model('${model_name}',${entity.name});`
-  })
-}
+    })
+  }
 
   useEffect(() => {
     const temp = projectData;
-    if (temp){
+    if (temp) {
       temp.config.schemaList = entityList;
       temp.config.modelName = model_name;
     }
@@ -92,7 +92,7 @@ const QueryGenerator = () => {
     const newEntityList = [...entityList];
     newEntityList[index].name = e.target.value;
     setEntityList(newEntityList);
-}
+  }
 
   const getProjectData = async () => {
     await fetch(`http://localhost:5000/project/getbyid/${id}`)
@@ -102,7 +102,7 @@ const QueryGenerator = () => {
         setProjectData(data);
         setMongoDBurl(data.config.mongoDB_URL);
         setmodel_name(data.config.modelName);
-        if(data.config.schemaList.length > 0)
+        if (data.config.schemaList.length > 0)
           setEntityList(data.config.schemaList);
       })
       .catch((err) => {
@@ -111,18 +111,24 @@ const QueryGenerator = () => {
   }
 
   const updateProjectData = async () => {
-    fetch(`http://localhost:5000/project/update/${id}`, {
+    const res = await fetch(`http://localhost:5000/project/update/${id}`, {
       method: 'PUT',
       body: JSON.stringify(projectData),
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then((response) => {
-      console.log(response.status);
-    }).catch((err) => {
-      console.log(err);
+      // }).then((res) => {
+      //   console.log(res.status);
+      // }).catch((err) => {
+      //   console.log(err);
     });
-
+    console.log(res.status);
+    if (res.status === 200) {
+      toast.success('Project updated successfully');
+    }
+    else {
+      toast.error('Project update failed');
+    }
   }
 
   useEffect(() => {
@@ -207,8 +213,8 @@ const QueryGenerator = () => {
   return (
     <div className='bg-dark pt-5'>
       {/* <video src={videoBg}></video> */}
-      <div className='container-fluid'>
-        <button className='btn btn-outline-primary' onClick={updateProjectData}>Update</button>
+      <div className='container-fluid pt-3'>
+        {/* <button className='btn btn-success' onClick={updateProjectData}>Update Changes</button> */}
         <div className='row p-4'>
           {/* For MongoDB URL */}
           <div className="col-md-5">
@@ -313,6 +319,9 @@ const QueryGenerator = () => {
         </div>
 
         <EntityHandler />
+        <div className="text-center">
+          <button className='btn btn-success mb-5 w-25' onClick={updateProjectData}>Update Changes</button>
+        </div>
 
       </div>
     </div >

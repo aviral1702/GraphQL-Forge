@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/user", UserRouter);
 app.use("/project", projectRouter);
+// app.use("/OTP",util.js);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

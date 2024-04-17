@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <div className='vh-100 bg-body-secondary'>
       <div className="py-5" id='login-page'>
-        <div className="card" id='card'>
+        <div className="card mt-5" id='card'>
           <div className="card-body">
             <h1 id='title'>Have an Account ?</h1>
             <hr />

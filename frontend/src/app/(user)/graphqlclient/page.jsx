@@ -26,12 +26,12 @@ const GraphQLClient = () => {
     }
 
     return (
-        <div className='bg-dark'>
-            <div className='d-flex justify-content-between'>
-                <input className='bg-dark border border-3 rounded-5 text-white m-2' id="url" type="text" defaultValue={'  http://localhost:3000'} />
+        <div className='vh-100 bg-dark pt-5'>
+            <div className='text-center'>
+                {/* <input className='bg-dark border border-3 rounded-5 text-white m-2' id="url" type="text" defaultValue={'  http://localhost:3000'} /> */}
 
-                <h1 className='text-white fst-italic mt-1'>GraphQL Client</h1>
-                <button className='m-3' id="logoutButton" type='submit'>Logout</button>
+                <h1 className='text-white fst-italic pt-5'>GraphQL Client</h1>
+                {/* <button className='m-3' id="logoutButton" type='submit'>Logout</button> */}
             </div>
             {/* <Nav className='bg-primary-subtle' justify variant="tabs" defaultActiveKey="/home">
                 <Nav.Item>
