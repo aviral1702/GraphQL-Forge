@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { crudOperations } from '../CrudGenerator';
 import { CopyBlock, dracula } from 'react-code-blocks';
 import useGraphContext from '@/context/GraphContext';
+import { FIELD_TYPES } from '@/constants';
 
 const EntityHandler = () => {
 
@@ -15,8 +16,12 @@ const EntityHandler = () => {
 
     const {
         entityList,
-        addEntity,
-
+        addNewEntity,
+        addEntityField,
+        updateEntityName,
+        updateEntityField,
+        removeEntityField,
+        removeEntity,
     } = useGraphContext();
 
 
@@ -32,16 +37,6 @@ const EntityHandler = () => {
         module.exports = mongoose.model('${entity.name.toLowerCase()}',${entity.name});`
         })
     }
-    
-
-
-    //Generate Query Parameters
-
-
-    //Generate Mutation Parameters
-
-
-    
 
 
     const generateMongoDBSchema = () => {
@@ -64,7 +59,7 @@ const EntityHandler = () => {
                                     entityList.map((entity, index) => {
                                         return <Accordion.Item eventKey={index}>
                                             <Accordion.Header>
-                                                <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(e, index)} />
+                                                <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(index, e.target.value)} />
                                                 <button className='btn btn-danger' onClick={e => removeEntity(index)}>Remove</button>
                                             </Accordion.Header>
                                             <Accordion.Body>
@@ -83,17 +78,22 @@ const EntityHandler = () => {
                                                 </ul>
                                                 <div className="input-group">
                                                     <input type="text" className="form-control" ref={fieldNameRef} />
-                                                    <input type="text" className="form-control" ref={fieldTypeRef} />
+                                                    <select type="text" className="form-control" ref={fieldTypeRef} >
+                                                        <option value="">Select Type</option>
+                                                        {FIELD_TYPES.map((type) => (
+                                                            <option value={type}>{type}</option>
+                                                        ))}
+                                                    </select>
                                                     <button
                                                         className='btn btn-primary'
-                                                        onClick={e => addField(index)}>Add Field</button>
+                                                        onClick={e => addEntityField(index, fieldNameRef.current.value, fieldTypeRef.current.value)}>Add Field</button>
                                                 </div>
                                             </Accordion.Body>
                                         </Accordion.Item>
                                     })
                                 }
                             </Accordion>
-                            <button className='btn btn-primary' onClick={addEntity}>Add Entity</button>
+                            <button className='btn btn-primary' onClick={addNewEntity}>Add Entity</button>
 
                         </div>
                         <div className="card-body">

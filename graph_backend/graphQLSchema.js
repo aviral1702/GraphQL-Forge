@@ -29,7 +29,7 @@ const db_url = 'mongodb+srv://aviral:1702@cluster0.i2jaaun.mongodb.net/products'
 
 
 const connect = async () => {
-    await mongoose.connect(db_url, {useNewUrlParser: true, useUnifiedTopology: true});
+    await mongoose.connect(db_url);
 }
 
 exports.resolvers = {

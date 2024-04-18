@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const GraphContext = createContext();
 
@@ -47,6 +48,8 @@ const NEW_ENTITY = {
         }
     ]
 }
+
+
 
 export const GraphProvider = ({ children }) => {
 
@@ -104,13 +107,13 @@ export const GraphProvider = ({ children }) => {
         setQueryList(newQueryList);
     }
 
-    const updateQueryParameter = (index, parameterIndex, parameter, type, constraint) => {
+    const addQueryParameter = (index, parameter, type, constraint) => {
         const newQueryList = [...queryList];
-        newQueryList[index].parameters[parameterIndex] = {
+        newQueryList[index].parameters.push({
             name: parameter,
             type,
             required: constraint
-        }
+        });
         setQueryList(newQueryList);
     }
 
@@ -154,9 +157,12 @@ export const GraphProvider = ({ children }) => {
         setMutationList(newMutationList);
     }
 
-    const addEntityField = (index, field) => {
+    const addEntityField = (index, field, type) => {
         const newEntityList = [...entityList];
-        newEntityList[index].fields.push(field);
+        newEntityList[index].fields.push({
+            name: field,
+            type
+        });
         setEntityList(newEntityList);
     }
 
@@ -209,7 +215,7 @@ export const GraphProvider = ({ children }) => {
         });
     }
 
-    
+
 
     return (
         <GraphContext.Provider value={{
@@ -220,24 +226,24 @@ export const GraphProvider = ({ children }) => {
             setMongoDbUrl,
             loadProject,
             addNewQuery,
+            removeEntity,
             addEntityField,
             updateEntityName,
             updateEntityField,
             removeEntityField,
             updateProjectData,
             isProjectLoading,
-            
+
             addNewMutation,
             addNewEntity,
             updateQueryName,
-            updateQueryParameter,
             updateQueryReturnType,
             removeQueryParameter,
             updateMutationName,
             updateMutationParameter,
             updateMutationReturnType,
-            removeMutationParameter
-
+            removeMutationParameter,
+            addQueryParameter
 
         }}>
             {children}

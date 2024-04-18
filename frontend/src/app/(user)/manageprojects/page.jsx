@@ -203,12 +203,22 @@ const ManageProjects = () => {
                                                         ))
                                                     }
                                                 </ul>
-                                                <h3>Queries : {selProject.config.mutationList.length}</h3>
+                                                <h3>Mutation : {selProject.config.mutationList.length}</h3>
                                                 <ul className='list-group'>
                                                     {
                                                         selProject.config.mutationList.map(mutation => (
                                                             <li className='list-group-item'>
                                                                 {mutation.name}
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                                <h3>Entity : {selProject.config.entityList.length}</h3>
+                                                <ul className='list-group'>
+                                                    {
+                                                        selProject.config.entityList.map(entity => (
+                                                            <li className='list-group-item'>
+                                                                {entity.name}
                                                             </li>
                                                         ))
                                                     }

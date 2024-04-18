@@ -9,10 +9,11 @@ import { Accordion } from 'react-bootstrap';
 import useGraphContext from '@/context/GraphContext';
 
 import AppHandler from './AppHandler';
-import { CodeBlock } from 'react-code-blocks/dist';
+import { CodeBlock, dracula } from 'react-code-blocks/dist';
 import QueryHandler from './QueryHandler';
 import MutationHandler from './MutationHandler';
 import { crudOperations } from '../CrudGenerator';
+import { MDBCard, MDBCardBody } from 'mdb-react-ui-kit';
 // import videoBg from '../assets/Untitled_design.mp4';
 
 const QueryGenerator = () => {
@@ -261,9 +262,7 @@ const QueryGenerator = () => {
   //       </div>
 
   //       <EntityHandler />
-  //       <div className="text-center">
-  //         <button className='btn btn-success mb-5 w-25' onClick={updateProjectData}>Update Changes</button>
-  //       </div>
+  //       
 
   //     </div>
   //   </div >
@@ -284,22 +283,30 @@ const QueryGenerator = () => {
         <h3 className='text-muted display-3 my-4 text-center'>Loading ... </h3>
       ) : (
         <div>
+          <div className="text-center">
+           <button className='btn btn-success mb-5 w-25' onClick={updateProjectData}>Update Changes</button>
+         </div>
           <AppHandler />
           <EntityHandler />
-
-          <div className="row">
-            <div className="col-md-6">
-              <QueryHandler />
-              <MutationHandler />
-            </div>
-            <div className="col-md-6">
-              <CodeBlock
-                text={generateGraphQLSchema()}
-                language='javascript'
-                showLineNumbers={true}
-                wrapLines={true}
-                theme='dracula'
-              />
+          <div className="p-4">
+            <div className="row">
+              <div className="col-md-5">
+                <QueryHandler />
+                <MutationHandler />
+              </div>
+              <div className="col-md-7">
+                <MDBCard>
+                  <MDBCardBody>
+                    <CodeBlock
+                      text={generateGraphQLSchema()}
+                      language='javascript'
+                      showLineNumbers={true}
+                      wrapLines={true}
+                      theme={dracula}
+                    />
+                  </MDBCardBody>
+                </MDBCard>
+              </div>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ const queryOptions = ['readAll', 'readByField', 'readById'];
 
 const MutationHandler = () => {
 
-    const { mutationList } = useGraphContext();
+    const { mutationList, addMutation, updateMutationName } = useGraphContext();
 
     return (
         <div>
@@ -20,7 +20,7 @@ const MutationHandler = () => {
                                 return <><Accordion.Item key={index}>
                                     <Accordion.Header>
                                         <input type="text" className='form-control' value={mutation.name} onChange={
-                                            e => updateMutationName(e, index)
+                                            e => updateMutationName(index, e.target.value)
                                         } />
                                         <button className='btn btn-danger' onClick={e => removeMutation(index)}>Remove</button>
                                     </Accordion.Header>
