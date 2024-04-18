@@ -34,6 +34,52 @@ const ManageProjects = () => {
             body: JSON.stringify({
                 user: currentUser._id,
                 name: nameRef.current.value,
+                config: {
+                    queryList: [{
+                        name: 'getEntity',
+                        type: 'readAll',
+                        parameters: [
+                            {
+                                name: 'id',
+                                type: 'ObjectId',
+                                required: true,
+                            }
+                        ],
+                        returnType: 'Entity',
+
+                    }],
+                    mutationList: [{
+                        name: 'updateProduct',
+                        type: 'add',
+                        parameters: [
+                            {
+                                name: 'id',
+                                type: 'ID',
+                                required: true
+                            },
+                            {
+                                name: 'field1',
+                                type: 'String',
+                                required: true
+                            },
+                        ],
+                        returnType: 'Entity'
+                    }],
+                    entityList: [{
+                        name: 'entityName',
+                        fields: [
+                            {
+                                name: 'field1',
+                                type: 'ObjectId'
+                            },
+                            {
+                                name: 'field2',
+                                type: 'Number'
+                            }
+                        ]
+                    }],
+                    mongoDbUrl: ''
+                },
                 createdAt: new Date()
             }),
             headers: {
