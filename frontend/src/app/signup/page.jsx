@@ -15,16 +15,6 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email')
     .required('Required'),
-    // .test('Email already exists', async (value) => {
-    //   const res = await fetch(`http://localhost:5000/user/getbyemail`, {
-    //     method: 'POST',
-    //     body: JSON.stringify({ email: value }),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   })
-    //   return res.status === 400;
-    // }),
   password: Yup.string()
     .min(8, 'Password is too short - should be 8 chars minimum.')
     .matches(/(?=.*[0-9])/, 'Password must contain a number.')
@@ -135,7 +125,6 @@ const Signup = () => {
                 onChange={signupForm.handleChange}
                 placeholder='Enter Your Email'
               />
-              {/* <button type='submit' className='btn btn-success' onClick={sendOTP}>Send OTP</button> */}
 
               <i class="fa-solid fa-key"></i>
               <label htmlFor="password">Password</label>

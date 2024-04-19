@@ -83,7 +83,8 @@ const GraphQLClient = () => {
     }
 
     const makeQuery = async () => {
-        const query = document.getElementById('query').value;
+        // const query = document.getElementById('query').value;
+        // console.log(query);
         const response = await fetch('http://localhost:9000', {
             method: 'POST',
             headers: {
@@ -95,7 +96,7 @@ const GraphQLClient = () => {
             })
         });
         const res = await response.json();
-        document.getElementById('response').value = JSON.stringify(res, null, 2);
+        setResponse(JSON.stringify(res, null, 2));
     }
 
     return (
@@ -147,13 +148,13 @@ const GraphQLClient = () => {
                     <div className="col-md-4">
                         <div className="form-group text-white">
                             <label htmlFor="query">Operation</label>
-                            <textarea className="form-control" id="query" rows="10" onChange={
+                            {/* <textarea className="form-control" id="query" rows="10" onChange={
                                 (e) => setQuery(e.target.value)
-                            } value={query}></textarea>
-                            {/* <Editor theme='vs-dark' id="query" height="40vh" defaultLanguage="javascript" value={query} onChange={(e) => setQuery(e.target.value)} /> */}
+                            } value={query}></textarea> */}
+                            <Editor theme='vs-dark' id="query" height="40vh" defaultLanguage="javascript" value={query} onChange={setQuery} />
                             <label htmlFor="variables">Variables</label>
-                            <textarea className="form-control" rows="5" onChange={(e) => setVariables(e.target.value)} value={variables}></textarea>
-                            {/* <Editor theme='vs-dark' id="variables" height="30vh" defaultLanguage="javascript" value={variables} onChange={(e) => setVariables(e.target.value)} /> */}
+                            {/* <textarea className="form-control" rows="5" onChange={(e) => setVariables(e.target.value)} value={variables}></textarea> */}
+                            <Editor theme='vs-dark' id="variables" height="30vh" defaultLanguage="javascript" value={variables} onChange={setVariables} />
                         </div>
                         <div className="text-center">
                             <button onClick={makeQuery} className="btn btn-primary mt-3 mb-5  ">Make Query</button>
@@ -162,8 +163,8 @@ const GraphQLClient = () => {
                     <div className="col-md-4">
                         <div className="form-group text-white">
                             <label htmlFor="response">Response</label>
-                            <textarea onChange={e => setResponse(e.target.value)} value={response} className="form-control" id="response" rows="15"></textarea>
-                            {/* <Editor theme='vs-dark' id="response" height="73vh" defaultLanguage="javascript" value={response} onChange={(e) => setResponse(e.target.value)} /> */}
+                            {/* <textarea onChange={e => setResponse(e.target.value)} value={response} className="form-control" id="response" rows="15"></textarea> */}
+                            <Editor theme='vs-dark' id="response" height="73vh" defaultLanguage="javascript" value={response} onChange={setResponse} />
                         </div>
                     </div>
                 </div>

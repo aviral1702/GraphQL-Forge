@@ -71,7 +71,7 @@ const page = () => {
                         <li className="nav-item">
                             <a
                                 className="nav-link"
-                                href="https://mdbootstrap.com/docs/standard/"
+                                href="/support"
                                 target="_blank"
                             >
                                 Support
