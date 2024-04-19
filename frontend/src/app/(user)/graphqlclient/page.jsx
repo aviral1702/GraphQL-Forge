@@ -3,11 +3,84 @@ import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Editor from '@monaco-editor/react';
 import * as css from './client.css';
+
+const DEFAULT_VARIABLE = `{
+    name: 'Aviral',
+    age: 78
+}`
+
+const FETCH_SINGLE_QUERY = () => `query GetEntity($getProductId: ID!) {
+    getEntity(id: $getEntityId) {
+        fieldname1
+        fieldname2
+    }
+  }
+`
+
+const FETCH_ALL_QUERY = () => `query GetEntity {
+    getEntity {
+        fieldname1
+        fieldname2
+    }
+    }
+`
+
+const UPDATE_MUTATION = () => `mutation updateEntity($name: String, $age: Int) {
+    updateEntity(name: $name, age: $age) {
+        name
+        age
+    }
+}`
+
+const ADD_MUTATION = () => `mutation addEntity($name: String, $age: Int) {
+    addEntity(name: $name, age: $age) {
+        name
+        age
+    }
+}`
+
+const DELETE_MUTATION = () => `mutation deleteEntity($name: String, $age: Int) {
+    deleteEntity(name: $name, age: $age) {
+        name
+        age
+    }
+}`
+
+
 const GraphQLClient = () => {
 
     const [query, setQuery] = useState('');
     const [response, setResponse] = useState('');
-    const [variables, setVariables] = useState("");
+    const [variables, setVariables] = useState(DEFAULT_VARIABLE);
+
+    const updateVariable = (key, value) => {
+        const newVariables = [...variables];
+        const index = newVariables.findIndex(v => v.name === key);
+        if (index !== -1) {
+            newVariables[index].value = value;
+            setVariables(newVariables);
+        }
+    }
+
+    const generateFetchAllQuery = () => {
+        setQuery(FETCH_ALL_QUERY());
+    }
+
+    const generateFetchSingleQuery = () => {
+        setQuery(FETCH_SINGLE_QUERY());
+    }
+
+    const generateUpdateMutation = () => {
+        setQuery(UPDATE_MUTATION());
+    }
+
+    const generateNewMutation = () => {
+        setQuery(NEW_MUTATION());
+    }
+
+    const generateDeleteMutation = () => {
+        setQuery(DELETE_MUTATION());
+    }
 
     const makeQuery = async () => {
         const query = document.getElementById('query').value;
@@ -49,12 +122,26 @@ const GraphQLClient = () => {
                     </Nav.Link>
                 </Nav.Item>
             </Nav> */}
-            <div className="container mt-3">
+            <div className="container-fluid mt-3">
                 <div className="row">
                     <div className="col-md-4">
                         <div className="form-group text-white">
                             <label htmlFor="document">Documentation</label>
-                            <textarea className="form-control" id="document" rows="15"></textarea>
+                            <ul className='list-group'>
+                                <li className='list-group-item'>
+                                    <div className='d-flex justify-content-between'>
+                                        <p>Fetch Single Entity Query</p>
+                                        <button className='btn btn-primary' onClick={generateFetchSingleQuery}>Generate Query</button>
+                                    </div>
+                                </li>
+                                <li className='list-group-item'>
+                                    <div className='d-flex justify-content-between'>
+                                        <p>Fetch All Entity Query</p>
+                                        <button className='btn btn-primary' onClick={generateFetchAllQuery}>Generate Query</button>
+                                    </div>
+                                </li>
+                            </ul>
+                            {/* <textarea className="form-control" id="document" rows="15"></textarea> */}
                         </div>
                     </div>
                     <div className="col-md-4">
@@ -65,8 +152,7 @@ const GraphQLClient = () => {
                             } value={query}></textarea>
                             {/* <Editor theme='vs-dark' id="query" height="40vh" defaultLanguage="javascript" value={query} onChange={(e) => setQuery(e.target.value)} /> */}
                             <label htmlFor="variables">Variables</label>
-                            <textarea className="form-control" id="variables" rows="5" onChange={(e) => setVariables(e.target.value)}
-                                value={variables}></textarea>
+                            <textarea className="form-control" rows="5" onChange={(e) => setVariables(e.target.value)} value={variables}></textarea>
                             {/* <Editor theme='vs-dark' id="variables" height="30vh" defaultLanguage="javascript" value={variables} onChange={(e) => setVariables(e.target.value)} /> */}
                         </div>
                         <div className="text-center">
