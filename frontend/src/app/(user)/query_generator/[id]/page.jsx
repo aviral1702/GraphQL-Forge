@@ -188,86 +188,6 @@ const QueryGenerator = () => {
     }
   };
 
-  // return (
-  //   <div className='bg-dark pt-5'>
-  //     {/* <video src={videoBg}></video> */}
-  //     <div className='container-fluid pt-3'>
-  //       {/* <button className='btn btn-success' onClick={updateProjectData}>Update Changes</button> */}
-
-
-  //       <div className="row p-4">
-  //         {/* For Schema Details */}
-  //         <div className='col-md-5'>
-  //           <div className='card'>
-  //             <div className='card-header'>
-  //               <h4>Schema</h4>
-  //             </div>
-  //             <div className="card-body">
-  //               <p>Schema is a collection of fields that define the structure of the data that can be queried.</p>
-  //               <label htmlFor="schema_name">Name of Schema : &nbsp;</label>
-  //               {/* <input type="text" className='form-control' value={schema_name} onChange={(e) => setschema_name(e.target.value)} /> */}
-  //               <Accordion defaultActiveKey="0">
-  //                 {
-  //                   entityList.map((entity, index) => {
-  //                     return <Accordion.Item eventKey={index}>
-  //                       <Accordion.Header>
-  //                         <input type="text" className='form-control' value={entity.name} onChange={e => updateEntityName(e, index)} />
-  //                       </Accordion.Header>
-  //                       <Accordion.Body>
-  //                         <ul className='list-group'>
-  //                           {
-  //                             entity.fields.map((field) => {
-  //                               return <li className='list-group-item d-flex justify-content-between'>
-  //                                 <p>{field.name} : {field.type}</p>
-  //                                 <button
-  //                                   className='btn btn-danger' onClick={
-  //                                     e => removeEntityField(index, entity.fields.indexOf(field))
-  //                                   }>Remove</button>
-  //                               </li>
-  //                             })
-  //                           }
-  //                         </ul>
-  //                         <div className="input-group">
-  //                           <input type="text" className="form-control" ref={fieldNameRef} />
-  //                           <input type="text" className="form-control" ref={fieldTypeRef} />
-  //                           <button
-  //                             className='btn btn-primary'
-  //                             onClick={e => addField(index)}>Add Field</button>
-  //                         </div>
-  //                       </Accordion.Body>
-  //                     </Accordion.Item>
-  //                   })
-  //                 }
-  //               </Accordion>
-  //               <label htmlFor="model_name">Name of Model : &nbsp;</label>
-  //               <input type="text" className='form-control' value={model_name} onChange={(e) => setmodel_name(e.target.value)} />
-  //             </div>
-  //           </div>
-  //         </div>
-  //         {/* For Schema.js code */}
-  //         <div className="col-md-7">
-  //           <div className="card">
-  //             <div className="card-header d-flex justify-content-between">
-  //               <h4>Schema.js Code</h4>
-  //               <button onClick={handleCopyClickSchemaCode} className='btn btn-primary btn-outline-primary btn-rounded'>
-  //                 <i className="fa-regular fa-copy"></i>  Copy
-  //               </button>
-  //               <Toaster />
-  //             </div>
-  //             <div className="card-body">
-  //               <Editor theme='vs-dark' height="50vh" defaultLanguage="javascript" value={generateMongoDBSchema()} />
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-
-  //       <EntityHandler />
-  //       
-
-  //     </div>
-  //   </div >
-  // )
-
   const titleCase = (str) => {
     return str.replace(
       /\w\S*/g,
@@ -283,7 +203,7 @@ const QueryGenerator = () => {
         <h3 className='text-muted display-3 my-4 text-center'>Loading ... </h3>
       ) : (
         <div>
-          <div className="text-center">
+          <div className="text-center pt-4">
            <button className='btn btn-success mb-5 w-25' onClick={updateProjectData}>Update Changes</button>
          </div>
           <AppHandler />

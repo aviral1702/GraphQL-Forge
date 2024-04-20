@@ -135,6 +135,10 @@ export const GraphProvider = ({ children }) => {
         setMutationList(newMutationList);
     }
 
+    const addMutation = () => {
+        setMutationList([...mutationList, NEW_MUTATION]);
+    }
+
     const updateMutationParameter = (index, parameterIndex, parameter, type, constraint) => {
         const newMutationList = [...mutationList];
         newMutationList[index].parameters[parameterIndex] = {

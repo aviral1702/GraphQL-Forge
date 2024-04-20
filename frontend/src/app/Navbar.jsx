@@ -77,6 +77,15 @@ const page = () => {
                                 Support
                             </a>
                         </li>
+                        <li className="nav-item">
+                            <a
+                                className="nav-link"
+                                href="/graphqlclient"
+                                target=""
+                            >
+                                GraphQL Client
+                            </a>
+                        </li>
                     </ul>
                     <ul className="navbar-nav flex-row">
                         {/* Icons */}

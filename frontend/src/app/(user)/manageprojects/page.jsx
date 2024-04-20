@@ -141,8 +141,10 @@ const ManageProjects = () => {
                     backgroundSize: "cover",
                     height: "100vh",
                 }}>
-                    <div className='text-center pt-5'>
-                        <MDBBtn onClick={toggleOpen}>New</MDBBtn>
+                    <div className="pt-4">
+                        <div className='text-center pt-5'>
+                            <MDBBtn onClick={toggleOpen}>New</MDBBtn>
+                        </div>
                     </div>
                     <MDBModal open={centredModal} setOpen={setCentredModal} tabIndex='-1'>
                         <MDBModalDialog centered>
