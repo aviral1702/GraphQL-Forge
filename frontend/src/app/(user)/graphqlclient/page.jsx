@@ -166,6 +166,7 @@ const GraphQLClient = () => {
                             {/* <textarea onChange={e => setResponse(e.target.value)} value={response} className="form-control" id="response" rows="15"></textarea> */}
                             <Editor theme='vs-dark' id="response" height="73vh" defaultLanguage="javascript" value={response} onChange={setResponse} />
                         </div>
+                        
                     </div>
                 </div>
             </div>
