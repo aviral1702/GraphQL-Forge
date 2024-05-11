@@ -9,18 +9,22 @@ const DEFAULT_VARIABLE = `{
     age: 78
 }`
 
-const FETCH_SINGLE_QUERY = () => `query GetEntity($getProductId: ID!) {
-    getEntity(id: $getEntityId) {
-        fieldname1
-        fieldname2
+const FETCH_SINGLE_QUERY = () => `query SingleProduct($getProductId: ID!) {
+    getProduct(id: $getProductId) {
+        id
+        price
+        productName
+        colors
     }
   }
 `
 
-const FETCH_ALL_QUERY = () => `query GetEntity {
-    getEntity {
-        fieldname1
-        fieldname2
+const FETCH_ALL_QUERY = () => `query AllProducts {
+    getProductsList {
+        id
+        price
+        productName
+        colors
     }
     }
 `
@@ -74,8 +78,8 @@ const GraphQLClient = () => {
         setQuery(UPDATE_MUTATION());
     }
 
-    const generateNewMutation = () => {
-        setQuery(NEW_MUTATION());
+    const generateAddMutation = () => {
+        setQuery(ADD_MUTATION());
     }
 
     const generateDeleteMutation = () => {
@@ -100,29 +104,10 @@ const GraphQLClient = () => {
     }
 
     return (
-        <div className='vh-100 bg-dark pt-5'>
+        <div className='bg-dark pt-5'>
             <div className='text-center'>
-                {/* <input className='bg-dark border border-3 rounded-5 text-white m-2' id="url" type="text" defaultValue={'  http://localhost:3000'} /> */}
-
-                <h1 className='text-white fst-italic pt-5'>GraphQL Client</h1>
-                {/* <button className='m-3' id="logoutButton" type='submit'>Logout</button> */}
+                <h1 className='text-white pt-5'>GraphQL Client</h1>
             </div>
-            {/* <Nav className='bg-primary-subtle' justify variant="tabs" defaultActiveKey="/home">
-                <Nav.Item>
-                    <Nav.Link href="/home">Active</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="link-1">Loooonger NavLink</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="link-2">Link</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="disabled" disabled>
-                        Disabled
-                    </Nav.Link>
-                </Nav.Item>
-            </Nav> */}
             <div className="container-fluid mt-3">
                 <div className="row">
                     <div className="col-md-4">
@@ -142,18 +127,34 @@ const GraphQLClient = () => {
                                     </div>
                                 </li>
                             </ul>
-                            {/* <textarea className="form-control" id="document" rows="15"></textarea> */}
+
+                            {/* <ul className='list-group'>
+                                <li className='list-group-item'>
+                                    <div className='d-flex justify-content-between'>
+                                        <p>Add Mutation</p>
+                                        <button className='btn btn-primary' onClick={generateAddMutation}>Generate Mutation</button>
+                                    </div>
+                                </li>
+                                <li className='list-group-item'>
+                                    <div className='d-flex justify-content-between'>
+                                        <p>Update Mutation</p>
+                                        <button className='btn btn-primary' onClick={generateUpdateMutation}>Generate Mutation</button>
+                                    </div>
+                                </li>
+                                <li className='list-group-item'>
+                                    <div className='d-flex justify-content-between'>
+                                        <p>Delete Mutation</p>
+                                        <button className='btn btn-primary' onClick={generateDeleteMutation}>Generate Mutation</button>
+                                    </div>
+                                </li>
+                            </ul> */}
                         </div>
                     </div>
                     <div className="col-md-4">
                         <div className="form-group text-white">
                             <label htmlFor="query">Operation</label>
-                            {/* <textarea className="form-control" id="query" rows="10" onChange={
-                                (e) => setQuery(e.target.value)
-                            } value={query}></textarea> */}
                             <Editor theme='vs-dark' id="query" height="40vh" defaultLanguage="javascript" value={query} onChange={setQuery} />
                             <label htmlFor="variables">Variables</label>
-                            {/* <textarea className="form-control" rows="5" onChange={(e) => setVariables(e.target.value)} value={variables}></textarea> */}
                             <Editor theme='vs-dark' id="variables" height="30vh" defaultLanguage="javascript" value={variables} onChange={setVariables} />
                         </div>
                         <div className="text-center">
@@ -163,7 +164,6 @@ const GraphQLClient = () => {
                     <div className="col-md-4">
                         <div className="form-group text-white">
                             <label htmlFor="response">Response</label>
-                            {/* <textarea onChange={e => setResponse(e.target.value)} value={response} className="form-control" id="response" rows="15"></textarea> */}
                             <Editor theme='vs-dark' id="response" height="73vh" defaultLanguage="javascript" value={response} onChange={setResponse} />
                         </div>
                         

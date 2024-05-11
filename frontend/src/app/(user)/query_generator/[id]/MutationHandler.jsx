@@ -8,7 +8,7 @@ const queryOptions = ['readAll', 'readByField', 'readById'];
 
 const MutationHandler = () => {
 
-    const { mutationList, addMutation, updateMutationName } = useGraphContext();
+    const { mutationList, addNewMutation, updateMutationName, removeMutation, setMutationList } = useGraphContext();
 
     return (
         <div>
@@ -71,7 +71,7 @@ const MutationHandler = () => {
                             })
                         }
                     </Accordion>
-                    <button className='btn btn-primary' onClick={addMutation}>Add Mutation</button>
+                    <button className='btn btn-primary' onClick={addNewMutation}>Add Mutation</button>
 
                 </MDBCardBody>
             </MDBCard>
