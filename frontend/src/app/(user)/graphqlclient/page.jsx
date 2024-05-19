@@ -166,6 +166,7 @@ const GraphQLClient = () => {
                             <label htmlFor="response">Response</label>
                             <Editor theme='vs-dark' id="response" height="73vh" defaultLanguage="javascript" value={response} onChange={setResponse} />
                         </div>
+                        
                     </div>
                 </div>
             </div>
