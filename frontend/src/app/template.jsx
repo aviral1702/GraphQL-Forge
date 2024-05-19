@@ -7,7 +7,7 @@ import { AppProvider, useAppContext } from './AppContext';
 import { Navigate } from 'react-router-dom';
 import Navbar from './Navbar';
 
-const Template = ({ children }) => {
+const Template = ({ children }) => { 
   // useEffect(() => {
   //     require('bootstrap/dist/js/bootstrap.bundle.min');
   // }   , []);
